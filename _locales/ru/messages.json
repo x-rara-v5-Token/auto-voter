@@ -1,0 +1,1128 @@
+{
+  "appName": {
+    "message": "Auto Vote Rating",
+    "description": "The title of the application, displayed in the web store."
+  },
+  "appDesc": {
+    "message": "Ekstensi otomatis voting server dan ranking Minecraft oleh Rara_IndiDev",
+    "description": "The description of the application, displayed in the web store."
+  },
+  "addButton": {
+    "message": "Tambah Server",
+    "description": "Button. Add"
+  },
+  "help": {
+    "message": "Tentang",
+    "description": "Button. About"
+  },
+  "fastAdd": {
+    "message": "Tambah Cepat",
+    "description": "Notification. Fast add"
+  },
+  "load": {
+    "message": "Memuat...",
+    "description": "Notification. Loading message"
+  },
+  "addedButton": {
+    "message": "Daftar Server",
+    "description": "Button. Added"
+  },
+  "optionsButton": {
+    "message": "Pengaturan",
+    "description": "Button. Options"
+  },
+  "addTitle": {
+    "message": "Tambah Server Baru",
+    "description": "Header. Add"
+  },
+  "yourNick": {
+    "message": "Username Minecraft",
+    "description": "Label. Nickname"
+  },
+  "enterNick": {
+    "message": "Masukkan username Minecraft kamu",
+    "description": "Input. Enter your nick"
+  },
+  "enterNickOptional": {
+    "message": "Masukkan username (opsional)"
+  },
+  "siteTop": {
+    "message": "Situs Voting / Monitoring",
+    "description": "Label. Ranking page"
+  },
+  "selectTop": {
+    "message": "Pilih situs voting",
+    "description": "Input. Select page"
+  },
+  "custom": {
+    "message": "Kustom",
+    "description": "Input. Custom"
+  },
+  "optionsExtension": {
+    "message": "Pengaturan Ekstensi",
+    "description": "Header. Options"
+  },
+  "settings": {
+    "message": "Pengaturan",
+    "description": "Label. Settings"
+  },
+  "disabledNotifStart": {
+    "message": "Nonaktifkan notifikasi mulai voting",
+    "description": "Checkbox. Voting start notifications"
+  },
+  "disabledNotifInfo": {
+    "message": "Nonaktifkan notifikasi voting berhasil",
+    "description": "Checkbox. Successful notifications"
+  },
+  "disabledNotifWarn": {
+    "message": "Nonaktifkan notifikasi peringatan",
+    "description": "Checkbox. Alert notifications"
+  },
+  "disabledNotifWarnTooltip": {
+    "message": "Contohnya notifikasi bahwa akun kamu sudah vote hari ini.",
+    "description": "1234"
+  },
+  "disabledNotifError": {
+    "message": "Nonaktifkan notifikasi error",
+    "description": "Checkbox. Error notifications"
+  },
+  "disabledCheckInternet": {
+    "message": "Nonaktifkan pengecekan koneksi internet"
+  },
+  "disabledOneVote": {
+    "message": "Nonaktifkan voting bersamaan di beberapa situs"
+  },
+  "disabledFocusedTab": {
+    "message": "Otomatis fokus ke tab voting"
+  },
+  "disabledFocusedTabTooltip": {
+    "message": "Membuka dan berpindah ke tab voting secara otomatis saat vote dimulai."
+  },
+  "disabledWarnCaptcha": {
+    "message": "Nonaktifkan peringatan captcha manual"
+  },
+  "disabledWarnCaptchaTooltip": {
+    "message": "Tidak menampilkan notifikasi jika captcha harus diselesaikan secara manual."
+  },
+  "disabledClickCaptcha": {
+    "message": "Jangan otomatis klik checkbox captcha"
+  },
+  "disabledClickCaptchaTooltip": {
+    "message": "Ekstensi tidak akan mengklik checkbox \"Saya bukan robot\" (gunakan jika memakai solver eksternal seperti NopeCHA)."
+  },
+  "disabledDebug": {
+    "message": "Mode Debug"
+  },
+  "debugTooltip": {
+    "message": "Aktifkan hanya untuk memeriksa detail kendala teknis bot."
+  },
+  "disableCloseTabsOnSuccess": {
+    "message": "Jangan tutup tab setelah vote berhasil"
+  },
+  "disableCloseTabsOnError": {
+    "message": "Jangan tutup tab jika vote gagal / error"
+  },
+  "disableCheckProjects": {
+    "message": "Nonaktifkan verifikasi awal server",
+    "description": "Checkbox. Disable check when adding a project"
+  },
+  "disableCheckProjectsTooltip": {
+    "message": "Menonaktifkan pengecekan keabsahan server saat ditambahkan.",
+    "description": "Tooltip. Disable check when adding a project"
+  },
+  "priority": {
+    "message": "Jadikan Prioritas Utama",
+    "description": "Checkbox. Priority"
+  },
+  "priorityTooltip": {
+    "message": "Server ini akan divote terlebih dahulu tanpa menunggu jeda antrean 10 menit.",
+    "description": "Tooltip. Priority"
+  },
+  "enabledSilentVote": {
+    "message": "Mode Voting",
+    "description": "Label. Voting mode"
+  },
+  "enabledSilentVoteTooltip": {
+    "message": "Mode Hening (Background) atau Mode Emulasi Browser (membuka tab dan menekan tombol secara otomatis).",
+    "description": "Tooltip. Silent vote"
+  },
+  "enabledSilentVoteSilent": {
+    "message": "Mode Hening (Background)",
+    "description": "Input. Mode."
+  },
+  "enabledSilentVoteNoSilent": {
+    "message": "Mode Emulasi (Buka Tab)",
+    "description": "Input. Mode."
+  },
+  "cooldown": {
+    "message": "Jeda antar server untuk 1 website (ms)",
+    "description": "Label. Cooldown input"
+  },
+  "cooldownError": {
+    "message": "Jeda waktu tunggu saat terjadi error (ms)"
+  },
+  "setCooldown": {
+    "message": "Simpan",
+    "description": "Button. Set cooldown"
+  },
+  "settingsFile": {
+    "message": "Ekspor & Impor Pengaturan",
+    "description": "Label. Export/Import"
+  },
+  "importSettings": {
+    "message": "Impor Pengaturan",
+    "description": "Button. Import"
+  },
+  "exportSettings": {
+    "message": "Ekspor Pengaturan",
+    "description": "Button. Export"
+  },
+  "exportLogs": {
+    "message": "Unduh File Log",
+    "description": "Button. Export"
+  },
+  "addedProjects": {
+    "message": "Daftar Server yang Terdaftar",
+    "description": "Header. Added projects"
+  },
+  "notAddedAll": {
+    "message": "Belum ada server yang ditambahkan"
+  },
+  "notAdded": {
+    "message": "Belum ada server pada kategori situs ini!",
+    "description": "Notification. You haven't added any projects"
+  },
+  "notAvailableInSilent": {
+    "message": "Opsi ini tidak tersedia dalam mode hening",
+    "description": "Notification. available in silent voting mode"
+  },
+  "supportDev": {
+    "message": "Kredit Pengembang",
+    "description": "Link (Express gratitude)"
+  },
+  "firstInstall": {
+    "message": "Selamat datang! Ekstensi Auto Vote Rating siap digunakan. Silakan tambahkan server pertama kamu."
+  },
+  "firstSettings": {
+    "message": "Menyiapkan pengaturan bawaan..."
+  },
+  "firstSettingsSave": {
+    "message": "Pengaturan bawaan berhasil disimpan"
+  },
+  "settingsGen": {
+    "message": "Konfigurasi server berhasil dibuat"
+  },
+  "settingsUpdate": {
+    "message": "Memperbarui pengaturan bawaan..."
+  },
+  "settingsUpdateEnd": {
+    "message": "Pengaturan server telah diperbarui"
+  },
+  "settingsUpdateEnd2": {
+    "message": "Pengaturan berhasil diperbarui dan disimpan"
+  },
+  "confirmDisableErrors": {
+    "message": "Apakah kamu yakin ingin menonaktifkan notifikasi error?"
+  },
+  "confirmDisableCheckProjects": {
+    "message": "Yakin ingin menonaktifkan verifikasi saat menambah server?"
+  },
+  "confirmPriority": {
+    "message": "Jadikan server ini prioritas utama voting?"
+  },
+  "deleteButton": {
+    "message": "Hapus"
+  },
+  "nextVote": {
+    "message": "Vote berikutnya dalam:"
+  },
+  "inPriority": {
+    "message": "Prioritas"
+  },
+  "adding": {
+    "message": "Menambahkan server..."
+  },
+  "lets": {
+    "message": "Tentu saja!"
+  },
+  "alreadyAdded": {
+    "message": "Server ini sudah terdaftar sebelumnya"
+  },
+  "oneProjectFairTop": {
+    "message": "Hanya dapat memilih satu server pada FairTop."
+  },
+  "oneProject": {
+    "message": "Pada $, kamu hanya dapat memilih $ server sekaligus.",
+    "placeholders": {
+      "project": {
+        "content": "$1"
+      },
+      "count": {
+        "content": "$2"
+      }
+    }
+  },
+  "checkHasProject": {
+    "message": "Memeriksa data server..."
+  },
+  "notConnectInternet": {
+    "message": "Tidak ada koneksi internet atau situs tidak dapat dijangkau."
+  },
+  "notFoundProjectCode": {
+    "message": "Server tidak ditemukan! Respon HTTP: $. Periksa kembali ID server.",
+    "placeholders": {
+      "code": {
+        "content": "$1"
+      }
+    }
+  },
+  "notFoundProject": {
+    "message": "Server tidak ditemukan! Periksa kembali URL atau ID server."
+  },
+  "notFoundProjectRedirect": {
+    "message": "Terjadi pengalihan halaman, server mungkin sudah tidak aktif. URL: $",
+    "placeholders": {
+      "url": {
+        "content": "$1"
+      }
+    }
+  },
+  "notConnectInternetVPN": {
+    "message": "Koneksi terputus atau situs diblokir. Periksa koneksi atau VPN kamu."
+  },
+  "authButton": {
+    "message": "Masuk / Login"
+  },
+  "authVK": {
+    "message": "Diperlukan otorisasi VK untuk vote pada $.",
+    "placeholders": {
+      "project": {
+        "content": "$1"
+      }
+    }
+  },
+  "notConnect": {
+    "message": "Gagal terhubung ke $, respon HTTP: $",
+    "placeholders": {
+      "url": {
+        "content": "$1"
+      },
+      "code": {
+        "content": "$2"
+      }
+    }
+  },
+  "checkHasProjectSuccess": {
+    "message": "Server berhasil diverifikasi"
+  },
+  "checkAuthVK": {
+    "message": "Memeriksa otorisasi VK..."
+  },
+  "checkAuthVKSuccess": {
+    "message": "Otorisasi VK berhasil"
+  },
+  "addSuccess": {
+    "message": "Server berhasil ditambahkan"
+  },
+  "cooldownChanged": {
+    "message": "Mulai ulang ekstensi untuk menerapkan perubahan jeda waktu?"
+  },
+  "storageError": {
+    "message": "Gagal membaca konfigurasi: $",
+    "placeholders": {
+      "error": {
+        "content": "$1"
+      }
+    }
+  },
+  "saving": {
+    "message": "Menyimpan..."
+  },
+  "storageErrorSave": {
+    "message": "Gagal menyimpan pengaturan: $",
+    "placeholders": {
+      "error": {
+        "content": "$1"
+      }
+    }
+  },
+  "successSave": {
+    "message": "Pengaturan berhasil disimpan"
+  },
+  "bodyFetch": {
+    "message": "Data body request"
+  },
+  "urlFetch": {
+    "message": "URL request"
+  },
+  "delayFetch": {
+    "message": "Jeda waktu (ms)"
+  },
+  "name": {
+    "message": "Nama Server / Alias"
+  },
+  "enterName": {
+    "message": "Masukkan nama server"
+  },
+  "exporting": {
+    "message": "Mengekspor data..."
+  },
+  "exportingEnd": {
+    "message": "Ekspor berhasil diselesaikan"
+  },
+  "importing": {
+    "message": "Mengimpor pengaturan..."
+  },
+  "importingEnd": {
+    "message": "Pengaturan berhasil diimpor"
+  },
+  "disableNotifInfo": {
+    "message": "Notifikasi voting berhasil dinonaktifkan"
+  },
+  "disableNotifWarn": {
+    "message": "Notifikasi peringatan dinonaktifkan"
+  },
+  "disableNotifStart": {
+    "message": "Notifikasi awal voting dinonaktifkan"
+  },
+  "retry": {
+    "message": "Coba lagi"
+  },
+  "successFastAdd": {
+    "message": "Ekstensi berhasil dikonfigurasi!"
+  },
+  "closeTab": {
+    "message": "Tutup tab ini sekarang?"
+  },
+  "closeTabButton": {
+    "message": "Tutup Tab"
+  },
+  "projectIDTooltip": {
+    "message": " server dapat dilihat dari baris alamat URL halaman voting, contohnya: "
+  },
+  "gameIDTooltip": {
+    "message": " game dapat dilihat dari URL halaman server, contohnya: "
+  },
+  "listingIDTooltip": {
+    "message": " listing dapat dilihat dari URL halaman server, contohnya: "
+  },
+  "inputProjectID": {
+    "message": "Masukkan ID Server"
+  },
+  "developers": {
+    "message": "Pengembang:"
+  },
+  "developer": {
+    "message": "Pengembang:"
+  },
+  "designer": {
+    "message": "Desain & Pemeliharaan:"
+  },
+  "itsFree": {
+    "message": "Ekstensi ini 100% gratis dan bebas digunakan!"
+  },
+  "feedback": {
+    "message": "Dikembangkan dan dimodifikasi oleh Rara_IndiDev."
+  },
+  "feedback2": {
+    "message": ""
+  },
+  "feedback3": {
+    "message": ""
+  },
+  "feedback4": {
+    "message": "Repositori & Pemeliharaan:"
+  },
+  "dmDiscord": {
+    "message": "Discord"
+  },
+  "dmChromeWebStore": {
+    "message": "Web Store"
+  },
+  "email": {
+    "message": "Email"
+  },
+  "internetRestored": {
+    "message": "Koneksi internet kembali terhubung"
+  },
+  "internetDisconnected": {
+    "message": "Koneksi internet terputus saat voting, menunggu koneksi pulih..."
+  },
+  "startedAutoVote": {
+    "message": "Memulai proses auto-voting..."
+  },
+  "successAutoVote": {
+    "message": "Voting berhasil terkirim!"
+  },
+  "successAutoVoteWarn": {
+    "message": "Voting selesai, catatan: $",
+    "placeholders": {
+      "warn": {
+        "content": "$1"
+      }
+    }
+  },
+  "alreadyVoted": {
+    "message": "Kamu sudah voting untuk server ini hari ini"
+  },
+  "alreadyVotedWarn": {
+    "message": "Sudah voting hari ini, $",
+    "placeholders": {
+      "warn": {
+        "content": "$1"
+      }
+    }
+  },
+  "errorOpenTab": {
+    "message": "Gagal membuka tab voting: $",
+    "placeholders": {
+      "error": {
+        "content": "$1"
+      }
+    }
+  },
+  "errorAuthVK": {
+    "message": "Otorisasi VK gagal. Silakan vote manual sekali untuk memperbarui sesi."
+  },
+  "errorRedirected": {
+    "message": "Error: Terjadi pengalihan ke halaman asing: $",
+    "placeholders": {
+      "url": {
+        "content": "$1"
+      }
+    }
+  },
+  "errorVote": {
+    "message": "Voting gagal! Respon HTTP: $ | URL: $",
+    "placeholders": {
+      "code": {
+        "content": "$1"
+      },
+      "url": {
+        "content": "$2"
+      }
+    }
+  },
+  "errorVoteNoElement": {
+    "message": "Elemen tombol/form tidak ditemukan: $. Laporkan kendala ini ke pengembang.",
+    "placeholders": {
+      "error": {
+        "content": "$1"
+      }
+    }
+  },
+  "errorVoteNetwork": {
+    "message": "Kendala jaringan saat voting! Kode: $ | URL: $",
+    "placeholders": {
+      "code": {
+        "content": "$1"
+      },
+      "url": {
+        "content": "$2"
+      }
+    }
+  },
+  "errorNextVote": {
+    "message": "Percobaan voting berikutnya dalam $ menit",
+    "placeholders": {
+      "minutes": {
+        "content": "$1"
+      }
+    }
+  },
+  "timeStamp": {
+    "message": "Waktu vote ditetapkan pada"
+  },
+  "projectID": {
+    "message": "ID Server"
+  },
+  "firstAddSettings": {
+    "message": "Pengaturan tambahan telah dibuat"
+  },
+  "secondBonus": {
+    "message": "Pada $ tersedia reward harian, otomatiskan klaim?",
+    "placeholders": {
+      "project": {
+        "content": "$1"
+      }
+    }
+  },
+  "redirectedSecondBonus": {
+    "message": "Pengalihan ke $, pastikan akun sudah dalam kondisi login.",
+    "placeholders": {
+      "url": {
+        "content": "$1"
+      }
+    }
+  },
+  "dailyBonus": {
+    "message": "Bonus Harian"
+  },
+  "donate": {
+    "message": ""
+  },
+  "countVote": {
+    "message": "Jumlah vote per hari"
+  },
+  "requiresCaptcha": {
+    "message": "Memerlukan verifikasi captcha"
+  },
+  "authSteam": {
+    "message": "Memerlukan login Steam"
+  },
+  "privacyPass": {
+    "message": "Pasang ekstensi "
+  },
+  "privacyPass2": {
+    "message": " untuk mempermudah penyelesaian captcha"
+  },
+  "privacyPass3": {
+    "message": "Atau buka "
+  },
+  "privacyPass4": {
+    "message": " dan ikuti panduannya."
+  },
+  "privacyPass5": {
+    "message": " dan perpanjang masa aktif cookies."
+  },
+  "this": {
+    "message": "ini"
+  },
+  "randomize": {
+    "message": "Acak jadwal voting berikutnya"
+  },
+  "randomizeTooltip": {
+    "message": "Waktu voting berikutnya akan diacak agar polanya tidak kaku seperti bot."
+  },
+  "inRandomize": {
+    "message": "Waktu diacak"
+  },
+  "soon": {
+    "message": "Segera..."
+  },
+  "inQueue": {
+    "message": "Dalam antrean voting..."
+  },
+  "now": {
+    "message": "Sedang proses voting saat ini..."
+  },
+  "timeout": {
+    "message": "Batas waktu tunggu voting telah habis"
+  },
+  "chooseLang": {
+    "message": "Pilih bahasa / wilayah"
+  },
+  "chooseGameURL": {
+    "message": "Masukkan URL game atau pilih dari daftar"
+  },
+  "chooseListingURL": {
+    "message": "Masukkan URL daftar server atau pilih dari daftar"
+  },
+  "idGame": {
+    "message": "ID Game"
+  },
+  "urlGame": {
+    "message": "URL Game"
+  },
+  "urlListing": {
+    "message": "URL Server List"
+  },
+  "stats": {
+    "message": "Statistik $",
+    "placeholders": {
+      "project": {
+        "content": "$1"
+      }
+    }
+  },
+  "stats2": {
+    "message": "Statistik"
+  },
+  "statsSuccessVotes": {
+    "message": "Total Vote Berhasil"
+  },
+  "statsMonthSuccessVotes": {
+    "message": "Vote Berhasil Bulan Ini"
+  },
+  "statsLastMonthSuccessVotes": {
+    "message": "Vote Berhasil Bulan Lalu"
+  },
+  "statsErrorVotes": {
+    "message": "Total Error"
+  },
+  "statsLaterVotes": {
+    "message": "Total \"Sudah Vote Hari Ini\""
+  },
+  "statsLastSuccessVote": {
+    "message": "Vote Terakhir yang Berhasil"
+  },
+  "statsLastAttemptVote": {
+    "message": "Percobaan Vote Terakhir"
+  },
+  "statsAdded": {
+    "message": "Tanggal Ditambahkan"
+  },
+  "statsInstalled": {
+    "message": "Tanggal Terpasang"
+  },
+  "generalStats": {
+    "message": "Statistik Keseluruhan"
+  },
+  "todayStats": {
+    "message": "Statistik Hari Ini"
+  },
+  "selectTime": {
+    "message": "Pilih metode jadwal voting"
+  },
+  "timeoutMS": {
+    "message": "Jeda waktu (ms) sejak vote terakhir"
+  },
+  "timeoutHour": {
+    "message": "Setiap jam tertentu (sekali sehari)"
+  },
+  "timeoutWeek": {
+    "message": "Setiap hari tertentu (sekali seminggu)"
+  },
+  "timeoutMonth": {
+    "message": "Setiap tanggal tertentu (sekali sebulan)"
+  },
+  "chooseHour": {
+    "message": "Tentukan jam"
+  },
+  "chooseWeek": {
+    "message": "Tentukan hari"
+  },
+  "chooseMonth": {
+    "message": "Tentukan tanggal"
+  },
+  "advSettings": {
+    "message": "Pengaturan Lanjutan:"
+  },
+  "customTimeOut": {
+    "message": "Kustomisasi jadwal vote berikutnya"
+  },
+  "lastDayMonth": {
+    "message": "Terapkan jadwal kustom hanya di hari terakhir bulan"
+  },
+  "customTimeOut2": {
+    "message": "Jadwal kustom"
+  },
+  "lastDayMonth2": {
+    "message": "di hari terakhir bulan"
+  },
+  "scheduleTime": {
+    "message": "Jadwalkan voting"
+  },
+  "discordLogIn": {
+    "message": "Kamu harus login Discord untuk vote bot Discord!"
+  },
+  "auth": {
+    "message": "Login terlebih dahulu untuk vote"
+  },
+  "emptySite": {
+    "message": "Halaman voting memberikan respon kosong"
+  },
+  "ordinalWorld": {
+    "message": "Nomor urut server/world"
+  },
+  "ordinalWorldTooltip": {
+    "message": "Nomor urut dunia atau sub-server saat melakukan voting."
+  },
+  "requiredNick": {
+    "message": "Username Minecraft diperlukan untuk server ini!"
+  },
+  "alertCaptcha": {
+    "message": "Halaman voting ini menggunakan captcha."
+  },
+  "additionURL": {
+    "message": "Parameter tambahan URL (opsional)"
+  },
+  "emptyError": {
+    "message": "Error kosong"
+  },
+  "notificationsDisabled": {
+    "message": "Notifikasi browser dinonaktifkan untuk ekstensi ini."
+  },
+  "errorAttemptVote": {
+    "message": "Melebihi batas percobaan vote harian, $",
+    "placeholders": {
+      "error": {
+        "content": "$1"
+      }
+    }
+  },
+  "voteMode": {
+    "message": "Paksa mode voting tertentu"
+  },
+  "start": {
+    "message": "Menjalankan ekstensi v$",
+    "placeholders": {
+      "version": {
+        "content": "$1"
+      }
+    }
+  },
+  "suspended": {
+    "message": "Ekstensi ditangguhkan (idle)"
+  },
+  "errordb": {
+    "message": "Error basis data $: $",
+    "placeholders": {
+      "db": {
+        "content": "$1"
+      },
+      "error": {
+        "content": "$2"
+      }
+    }
+  },
+  "errordbTitle": {
+    "message": "Error basis data $",
+    "placeholders": {
+      "db": {
+        "content": "$1"
+      }
+    }
+  },
+  "errorSelectSiteRating": {
+    "message": "Situs ranking tidak sesuai, pilih situs yang benar dari daftar."
+  },
+  "clearLogs": {
+    "message": "Hapus Log"
+  },
+  "clearingLogs": {
+    "message": "Membersihkan catatan log..."
+  },
+  "clearedLogs": {
+    "message": "Catatan log berhasil dibersihkan"
+  },
+  "deleteAll": {
+    "message": "Hapus Semua Server"
+  },
+  "deleteAllRating": {
+    "message": "Hapus semua server yang terdaftar pada situs ini?"
+  },
+  "notGrantUrl": {
+    "message": "Izin akses ke situs voting belum diberikan."
+  },
+  "grantUrl": {
+    "message": "Berikan izin akses ke situs voting"
+  },
+  "grant": {
+    "message": "Izinkan"
+  },
+  "permissions": {
+    "message": "Izin Akses"
+  },
+  "granted": {
+    "message": "Diizinkan"
+  },
+  "notgranted": {
+    "message": "Belum diizinkan"
+  },
+  "oldSettings": {
+    "message": "Konfigurasi versi lama $ terdeteksi, memperbarui ke versi $...",
+    "placeholders": {
+      "old": {
+        "content": "$1"
+      },
+      "new": {
+        "content": "$2"
+      }
+    }
+  },
+  "randomizeInput": {
+    "message": "Rentang waktu acak (min dan max dalam milidetik)"
+  },
+  "errorCaptcha": {
+    "message": "Kendala captcha: $",
+    "placeholders": {
+      "error": {
+        "content": "$1"
+      }
+    }
+  },
+  "passageCaptcha": {
+    "message": "Perhatian: Website ini menggunakan captcha reCAPTCHA/Turnstile."
+  },
+  "here": {
+    "message": "di sini"
+  },
+  "notRegVK": {
+    "message": "Otorisasi VK gagal: Akun belum terverifikasi nomor telepon."
+  },
+  "version": {
+    "message": "Versi: "
+  },
+  "min": {
+    "message": "Minimum"
+  },
+  "max": {
+    "message": "Maksimum"
+  },
+  "translated": {
+    "message": "Bahasa Indonesia: Rara_IndiDev"
+  },
+  "notSupportedGroupTabs": {
+    "message": "Browser tidak mendukung pengelompokan tab."
+  },
+  "projectDeleted": {
+    "message": "Server dihapus oleh pengguna"
+  },
+  "banAttention": {
+    "message": "Perhatian: Server ini menerapkan batasan ketat. Pantau notifikasi secara berkala."
+  },
+  "rewardAttention": {
+    "message": "Perhatian: Pastikan username Minecraft sudah diisi dengan benar agar reward voting masuk ke akun in-game kamu!"
+  },
+  "closedTab": {
+    "message": "Tab voting ditutup sebelum proses selesai."
+  },
+  "restart": {
+    "message": "Ulangi Vote"
+  },
+  "restarted": {
+    "message": "Voting telah diulang"
+  },
+  "disabledUseRemoteCode": {
+    "message": "Nonaktifkan kode jarak jauh"
+  },
+  "disabledUseRemoteCodeTooltip": {
+    "message": "Opsi khusus pengembang saat melakukan debug kode lokal."
+  },
+  "rejectDelete": {
+    "message": "Tidak dapat menghapus server saat proses voting sedang berlangsung."
+  },
+  "disabledSendErrorSentry": {
+    "message": "Nonaktifkan pengiriman laporan error otomatis"
+  },
+  "disabledSendErrorSentryTooltip": {
+    "message": "Mencegah pengiriman laporan teknis otomatis saat terjadi error tak terduga."
+  },
+  "expertMode": {
+    "message": "Mode Pengguna Lanjutan"
+  },
+  "expertModeTooltip": {
+    "message": "Membuka opsi teknis lanjutan untuk pengguna mahir."
+  },
+  "link": {
+    "message": "Tautan Halaman Vote"
+  },
+  "linkPlaceholder": {
+    "message": "Tempel tautan (URL) halaman voting server di sini"
+  },
+  "errorLink": {
+    "message": "$ tidak didukung atau format tautan kurang lengkap.",
+    "placeholders": {
+      "url": {
+        "content": "$1"
+      }
+    }
+  },
+  "switchAddMode": {
+    "message": "Mode Input Manual"
+  },
+  "storageUsed": {
+    "message": "Penyimpanan terpakai: $ $",
+    "placeholders": {
+      "value": {
+        "content": "$1"
+      },
+      "unit": {
+        "content": "$2"
+      }
+    }
+  },
+  "edit": {
+    "message": "Edit"
+  },
+  "confirmNow": {
+    "message": "Server ini sedang dalam proses voting. Ulangi proses dari awal?"
+  },
+  "confirmQueue": {
+    "message": "Server dalam antrean sedang diproses. Batalkan dan ulangi proses?"
+  },
+  "canceledVote": {
+    "message": "Voting dibatalkan oleh pengguna"
+  },
+  "projectRestarted": {
+    "message": "Voting diulang oleh pengguna"
+  },
+  "restartInQueue": {
+    "message": "Server masih dalam antrean voting, tidak dapat diulang sekarang."
+  },
+  "save": {
+    "message": "Simpan"
+  },
+  "cancel": {
+    "message": "Batal"
+  },
+  "editTitle": {
+    "message": "Edit Data Server"
+  },
+  "operaAttention": {
+    "message": "Perhatian khusus untuk pengguna browser Opera."
+  },
+  "errorLinkParam": {
+    "message": "Parameter $ tidak ditemukan pada tautan yang diberikan.",
+    "placeholders": {
+      "param": {
+        "content": "$1"
+      }
+    }
+  },
+  "cooldownVote": {
+    "message": "Batas waktu voting (ms)"
+  },
+  "timeoutTooltip": {
+    "message": "Jeda waktu tunggu sebelum beralih ke server berikutnya pada situs yang sama."
+  },
+  "timeoutErrorTooltip": {
+    "message": "Jeda waktu tunggu sebelum mencoba voting ulang jika terjadi error."
+  },
+  "timeoutVoteTooltip": {
+    "message": "Batas waktu maksimal per proses voting sebelum dianggap macet."
+  },
+  "disabledRestartOnTimeout": {
+    "message": "Jangan ulangi voting otomatis jika waktu habis"
+  },
+  "monday": {
+    "message": "Senin"
+  },
+  "tuesday": {
+    "message": "Selasa"
+  },
+  "wednesday": {
+    "message": "Rabu"
+  },
+  "thursday": {
+    "message": "Kamis"
+  },
+  "friday": {
+    "message": "Jumat"
+  },
+  "saturday": {
+    "message": "Sabtu"
+  },
+  "sunday": {
+    "message": "Minggu"
+  },
+  "notSupportedBrowser": {
+    "message": "Browser ini tidak didukung penuh"
+  },
+  "notSupportedBrowserContent1": {
+    "message": "Gunakan browser berbasis Chromium seperti Google Chrome atau Microsoft Edge untuk hasil terbaik."
+  },
+  "notSupportedBrowserContent2": {
+    "message": "Fitur background dan otomatisasi captcha membutuhkan API modern Chromium."
+  },
+  "deleteExtension": {
+    "message": "Hapus Ekstensi"
+  },
+  "limitedModeButton1": {
+    "message": "Lanjutkan penggunaan"
+  },
+  "areYouSure": {
+    "message": "Apakah kamu yakin?"
+  },
+  "limitedModeContent": {
+    "message": "Informasi batasan:"
+  },
+  "limitedModeContent1": {
+    "message": "Tab yang dibuka ekstensi tidak akan dikelompokkan secara otomatis."
+  },
+  "limitedModeContent2": {
+    "message": "Browser harus tetap terbuka agar jadwal voting dapat berjalan."
+  },
+  "limitedModeContent3": {
+    "message": "Izin akses captcha diperlukan agar verifikasi otomatis bekerja."
+  },
+  "limitedModeButton2": {
+    "message": "Saya mengerti, lanjutkan"
+  },
+  "waitSeconds": {
+    "message": "Tunggu $ detik",
+    "placeholders": {
+      "seconds": {
+        "content": "$1"
+      }
+    }
+  },
+  "confirmUninstallSelf": {
+    "message": "Yakin ingin menghapus seluruh data dan konfigurasi ekstensi?"
+  },
+  "lagServiceWorker": {
+    "message": "Proses background tidak merespon, ingin memulai ulang ekstensi?"
+  },
+  "restartExtension": {
+    "message": "Mulai Ulang Ekstensi"
+  },
+  "confirmRestartExtension": {
+    "message": "Mulai ulang ekstensi sekarang?"
+  },
+  "requiredConfirmTOS": {
+    "message": "Website meminta persetujuan syarat dan ketentuan."
+  },
+  "tooManyVoteAttempts": {
+    "message": "Terlalu banyak percobaan voting dalam waktu singkat. Periksa konfigurasi."
+  },
+  "access": {
+    "message": "Berikan Akses"
+  },
+  "alertFocusedTab": {
+    "message": "Website ini mewajibkan tab tetap aktif (fokus) saat proses voting."
+  },
+  "nickWithSpace": {
+    "message": "Ditemukan spasi pada username Minecraft"
+  },
+  "nickWithSpaceConfirm": {
+    "message": "Username mengandung spasi. Tetap lanjutkan?"
+  },
+  "notSupportedSiteRating": {
+    "message": "Situs $ belum didukung secara resmi.",
+    "placeholders": {
+      "rating": {
+        "content": "$1"
+      }
+    }
+  },
+  "usedTranslator": {
+    "message": "Penerjemah otomatis browser aktif dan dapat mengganggu script voting. Silakan nonaktifkan penerjemah pada tab ini."
+  },
+  "failParseUrlFastAdd": {
+    "message": "Tidak dapat mengenali format rating $ pada $.",
+    "placeholders": {
+      "rating": {
+        "content": "$1"
+      },
+      "site": {
+        "content": "$2"
+      }
+    }
+  },
+  "captchaPassedDouble": {
+    "message": "Penyelesaian captcha terdeteksi ganda."
+  },
+  "notReadyInject": {
+    "message": "Tab termuat lebih cepat sebelum ekstensi siap menginjeksi script."
+  },
+  "siteError": {
+    "message": "Situs voting merespon dengan pesan: $",
+    "placeholders": {
+      "error": {
+        "content": "$1"
+      }
+    }
+  },
+  "disabledSite": {
+    "message": "Server dinonaktifkan sementara. Alasan: $",
+    "placeholders": {
+      "reason": {
+        "content": "$1"
+      }
+    }
+  },
+  "never": {
+    "message": "Tidak pernah"
+  }
+}
