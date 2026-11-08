@@ -1445,7 +1445,7 @@ function addProjectsBonus(project, element) {
 //          await addProject('Custom', 'MythicalWorldBonusMith', '{"credentials":"include","headers":{"accept":"text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9","accept-language":"ru,en;q=0.9,en-US;q=0.8","cache-control":"max-age=0","content-type":"application/x-www-form-urlencoded","sec-fetch-dest":"document","sec-fetch-mode":"navigate","sec-fetch-site":"same-origin","sec-fetch-user":"?1","upgrade-insecure-requests":"1"},"referrer":"https://mythicalworld.su/bonus","referrerPolicy":"no-referrer-when-downgrade","body":"type=1&bonus=1&value=5","method":"POST","mode":"cors"}', null, 'https://mythicalworld.su/bonus', {ms: 86400000}, priorityOption, null)
 //      })
 /*  } else */if (project.id === 'victorycraft' || project.id === "8179" || project.id === "4729") {
-        document.getElementById('secondBonusVictoryCraft').addEventListener('click', async event => {
+        document.getElementById('secondBonusVictoryCraft')?.addEventListener('click', async event => {
             event.target.disabled = true
             let vict = {
                 rating: 'Custom',

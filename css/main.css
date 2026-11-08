@@ -4,8 +4,8 @@
 }
 
 body {
-	background: #090d16;
-	color: #f8fafc;
+	background: #f8fafc;
+	color: #0f172a;
 	overflow-x: hidden;
 	min-height: 100vh;
 }
@@ -22,15 +22,15 @@ nav {
 	width: 200px;
 	height: 100%;
 	position: fixed;
-	background: #0b1329;
-	border-right: 1px solid #1e293b;
-	box-shadow: 2px 0 12px rgba(0, 0, 0, 0.25);
+	background: #ffffff;
+	border-right: 1px solid #e2e8f0;
+	box-shadow: 2px 0 12px rgba(0, 0, 0, 0.04);
 }
 
 nav .logo {
 	padding: 20px 14px 16px;
 	text-align: center;
-	border-bottom: 1px solid #1e293b !important;
+	border-bottom: 1px solid #e2e8f0 !important;
 }
 
 nav .logo img {
@@ -44,7 +44,7 @@ nav .logo img {
 nav .logo .logo-title {
 	font-size: 15px;
 	font-weight: 700;
-	color: #f8fafc;
+	color: #0f172a;
 	letter-spacing: 0.5px;
 }
 
@@ -53,9 +53,9 @@ nav .logo .logo-badge {
 	margin-top: 4px;
 	font-size: 10.5px;
 	font-weight: 600;
-	color: #38bdf8;
-	background: rgba(56, 189, 248, 0.12);
-	border: 1px solid rgba(56, 189, 248, 0.25);
+	color: #0284c7;
+	background: #e0f2fe;
+	border: 1px solid #bae6fd;
 	padding: 2px 8px;
 	border-radius: 4px;
 }
@@ -68,8 +68,8 @@ nav div.navigation > button {
 	padding: 10px 14px;
 	font-size: 13px;
 	font-weight: 500;
-	opacity: .8;
-	color: #94a3b8;
+	opacity: 1;
+	color: #475569;
 	background: transparent;
 	transition: all .2s ease;
 	margin-bottom: 8px;
@@ -86,9 +86,8 @@ nav div.navigation > button {
 }
 
 nav div.navigation > button:hover {
-	opacity: 1;
-	background: rgba(255, 255, 255, 0.05);
-	color: #f8fafc;
+	background: #f1f5f9;
+	color: #0f172a;
 }
 
 nav div.navigation > button img {
@@ -96,7 +95,13 @@ nav div.navigation > button img {
 	height: 20px;
 	margin: 0;
 	flex-shrink: 0;
-	opacity: .8;
+	opacity: .75;
+	filter: invert(0.35);
+}
+
+nav div.navigation > button:hover img {
+	opacity: 1;
+	filter: invert(0.2);
 }
 
 nav div.navigation > button.active {
@@ -104,7 +109,7 @@ nav div.navigation > button.active {
  	background: #0284c7;
 	color: #ffffff;
 	font-weight: 600;
-	box-shadow: 0 4px 12px rgba(2, 132, 199, 0.35);
+	box-shadow: 0 4px 12px rgba(2, 132, 199, 0.25);
 }
 
 nav div.navigation > button.active img {
@@ -211,16 +216,19 @@ nav div.navigation > button.active img {
 }
 
 #modals .modal {
-    padding: 7px;
+    padding: 16px;
     margin: auto;
     position: fixed;
     top: 0; bottom: 0; right: 0; left: 0;
-    width: 400px;
+    width: 420px;
     height: 350px;
-    background: #2a2a2f;
-    border-radius: 10px;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+    border-radius: 12px;
     transform: scale(0);
     z-index: 30;
+    color: #0f172a;
 }
 
 #modals .modal#addFastProject {
@@ -258,9 +266,10 @@ nav div.navigation > button.active img {
     justify-content: space-between;
     display: flex;
     color: #0284c7;
-    font-size: 25px;
+    font-size: 20px;
+    font-weight: 700;
     padding-bottom: 10px;
-    border-bottom: solid 1px #ccc
+    border-bottom: solid 1px #e2e8f0;
 }
 
 #modals .modal .close {
@@ -285,8 +294,8 @@ nav div.navigation > button.active img {
     position: absolute;
     width: 25px;
     border-radius: 100px;
-    height: 4px;
-    background: #ccc
+    height: 3px;
+    background: #94a3b8;
 }
 
 #modals .modal .close:after {
@@ -299,11 +308,11 @@ nav div.navigation > button.active img {
 
 #modals .modal .content .message {
 	overflow-y: auto;
-    font-size: 15px;
-    color: #fff;
+    font-size: 14px;
+    color: #334155;
     text-align: center;
     padding: 5px;
-    margin: 20px auto;
+    margin: 16px auto;
 	max-height: 240px;
 }
 
@@ -324,14 +333,14 @@ nav div.navigation > button.active img {
 
 #modals .modal .content .message table tbody tr {
 	justify-content: space-between;
-	padding: 5px;
+	padding: 8px 10px;
 	display: flex;
-	border-radius: 4px;
+	border-radius: 6px;
 	margin-bottom: 5px;
 }
 
 #modals .modal .content .message table tbody tr:nth-child(odd) {
-	background-color: #1b1b1e; 
+	background-color: #f8fafc; 
 }
 
 #modals .modal .content .message table tbody tr td {
@@ -364,7 +373,7 @@ nav div.navigation > button.active img {
 }
 
 #modals .modal#addFastProject .content {
-	color: #fff;
+	color: #0f172a;
 }
 
 @media(max-width: 450px) {
@@ -382,16 +391,16 @@ nav div.navigation > button.active img {
 	margin: 32px 32px 50px 230px;
 	width: calc(100% - 270px);
 	max-width: 1040px;
-	background: #0f172a;
-	border: 1px solid #1e293b;
+	background: #ffffff;
+	border: 1px solid #e2e8f0;
 	border-radius: 14px;
 	padding: 28px 32px;
-	color: #f8fafc;
-	box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.4);
+	color: #0f172a;
+	box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
 }
 
 .tabcontent > h4 {
-	color: #38bdf8;
+	color: #0284c7;
 	text-align: center;
 	font-size: 22px;
 	font-weight: 700;
@@ -412,18 +421,21 @@ nav div.navigation > button.active img {
 }
 
 .projectsBlock .contentBlock .listcontent li {
-	background: #0f172a;
+	background: #f8fafc;
 	margin-bottom: 10px;
 	justify-content: space-between;
 	display: flex;
 	padding: 12px 16px;
 	border-radius: 8px;
-	border: 1px solid #334155;
-	transition: border-color 0.2s ease;
+	border: 1px solid #e2e8f0;
+	transition: all 0.2s ease;
+	color: #0f172a;
 }
 
 .projectsBlock .contentBlock .listcontent li:hover {
-	border-color: #475569;
+	border-color: #cbd5e1;
+	background: #ffffff;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 }
 
 .projectStats {
@@ -493,7 +505,7 @@ nav div.navigation > button.active img {
 }
 
 .projectsBlock .contentBlock .listcontent li:nth-child(odd) {
-	background: #172033;
+	background: #f1f5f9;
 }
 
 .projectsBlock .buttonBlock button {
