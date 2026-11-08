@@ -65,6 +65,13 @@ async function checkVote() {
     let cursor = await transaction.objectStore('projects').openCursor()
     while (cursor) {
         const project = cursor.value
+        project.key = cursor.key
+        if (!project.ratingMain) {
+            const main = allProjects[project.rating]?.URLMain?.()
+            if (main && main !== project.rating) project.ratingMain = main
+            else if (project.rating === 'minecraft-mp.com' || project.game === 'minecraft-mp.com') project.ratingMain = 'listforge.net'
+        }
+        if (!project.game && project.rating) project.game = project.rating
         if (!project.time || project.time < Date.now()) {
             await checkOpen(project, transaction)
         }
@@ -145,8 +152,21 @@ async function checkOpen(project, transaction) {
             db.put('other', openedProjects, 'openedProjects')
             continue
         }
+        if (typeof tab === 'number') {
+            const tabExists = await chrome.tabs.get(tab).catch(() => null)
+            if (!tabExists) {
+                openedProjects.delete(tab)
+                db.put('other', openedProjects, 'openedProjects')
+                continue
+            }
+        }
+        if (tab.startsWith?.('start_') && value.key === project.key && (!value.nextAttempt || Date.now() >= value.nextAttempt)) {
+            openedProjects.delete(tab)
+            db.put('other', openedProjects, 'openedProjects')
+            continue
+        }
         if (project.rating === value.rating || (value.randomize && project.randomize) || settings.disabledOneVote) {
-            if (settings.disabledRestartOnTimeout || tab.startsWith?.('queue_') || Date.now() < value.nextAttempt) {
+            if (settings.disabledRestartOnTimeout || tab.startsWith?.('queue_') || (value.nextAttempt && Date.now() < value.nextAttempt)) {
                 return
             } else {
                 openedProjects.delete(tab)
@@ -172,6 +192,7 @@ async function checkOpen(project, transaction) {
 
     const opened = {}
     opened.key = project.key
+    opened.project = project
     opened.rating = project.rating
     opened.countInject = 0
     if (project.randomize) opened.randomize = project.randomize
@@ -294,9 +315,10 @@ async function newWindow(project, opened) {
         result = await promiseWindow
         if (result === false) return
 
-        const url = allProjects[project.rating].voteURL(project)
+        const ratingObj = allProjects[project.rating] || allProjects[project.ratingMain]
+        const url = ratingObj?.voteURL?.(project) || ('https://' + (project.game || project.rating) + '/server/' + project.id + '/vote/')
 
-        let tab = await tryOpenTab({url, active: settings.disabledFocusedTab || Boolean(allProjects[project.rating].focusedTab?.(project))}, project, 0)
+        let tab = await tryOpenTab({url, active: settings.disabledFocusedTab || Boolean(ratingObj?.focusedTab?.(project))}, project, 0)
         if (tab == null) return
         openedProjects.set(tab.id, opened)
         openedProjects.delete('start_' + project.key)
@@ -480,28 +502,38 @@ async function findProjectForTab(urlStr) {
         const domain = getDomainWithoutSubdomain(url.host)
         if (!domain) return null
 
-        const projects = await db.getAll('projects')
-        if (!projects || !projects.length) return null
+        const tx = db.transaction('projects', 'readonly')
+        const store = tx.objectStore('projects')
+        let cursor = await store.openCursor()
+        while (cursor) {
+            const proj = cursor.value
+            proj.key = cursor.key
+            if (!proj.ratingMain) {
+                const main = allProjects[proj.rating]?.URLMain?.()
+                if (main && main !== proj.rating) proj.ratingMain = main
+                else if (proj.rating === 'minecraft-mp.com' || proj.game === 'minecraft-mp.com') proj.ratingMain = 'listforge.net'
+            }
+            if (!proj.game) proj.game = proj.rating || url.host
 
-        for (const proj of projects) {
             const projDomain = proj.rating || proj.ratingMain
             const matchesDomain = (projDomain === domain) ||
                                   (proj.game === url.host) ||
                                   (allProjects[projDomain]?.URLMain?.() === domain) ||
                                   (allProjects[domain] && (proj.rating === domain || proj.ratingMain === domain))
 
-            if (!matchesDomain) continue
-
-            if (proj.id) {
-                const idStr = String(proj.id)
-                if (url.pathname.includes('/' + idStr + '/') || url.pathname.includes('/' + idStr) || url.search.includes(idStr)) {
-                    if (url.pathname.includes('vote') || url.pathname.includes('rate') || !allProjects[domain]?.voteURL) {
-                        return proj
+            if (matchesDomain) {
+                if (proj.id) {
+                    const idStr = String(proj.id)
+                    if (url.pathname.includes('/' + idStr + '/') || url.pathname.includes('/' + idStr) || url.search.includes(idStr)) {
+                        if (url.pathname.includes('vote') || url.pathname.includes('rate') || !allProjects[domain]?.voteURL) {
+                            return proj
+                        }
                     }
+                } else if (url.pathname.includes('vote') || url.pathname.includes('rate')) {
+                    return proj
                 }
-            } else if (url.pathname.includes('vote') || url.pathname.includes('rate')) {
-                return proj
             }
+            cursor = await cursor.continue()
         }
     } catch (e) {
         console.warn('findProjectForTab error:', e.message)
@@ -515,7 +547,7 @@ const webNavigationOnCommittedListener = async function(details) {
     if (!opened && details.frameId === 0 && details.url && !details.url.startsWith('chrome')) {
         const matched = await findProjectForTab(details.url)
         if (matched) {
-            opened = { key: matched.key, countInject: 0, manual: true }
+            opened = { key: matched.key, project: matched, rating: matched.rating, countInject: 0, manual: true }
             openedProjects.set(details.tabId, opened)
             console.log('Manual vote tab detected in onCommitted:', getProjectPrefix(matched, false))
         }
@@ -595,7 +627,7 @@ const webNavigationOnCompletedListener = async function(details) {
     if (!opened && details.frameId === 0 && details.url && !details.url.startsWith('chrome')) {
         const matched = await findProjectForTab(details.url)
         if (matched) {
-            opened = { key: matched.key, countInject: 0, manual: true }
+            opened = { key: matched.key, project: matched, rating: matched.rating, countInject: 0, manual: true }
             openedProjects.set(details.tabId, opened)
             console.log('Manual vote tab detected in onCompleted:', getProjectPrefix(matched, false))
         }
@@ -608,17 +640,18 @@ const webNavigationOnCompletedListener = async function(details) {
             return
         }
 
-        const project = await db.get('projects', opened.key)
-
-        // Если пользователь авторизовывается через эти сайты, но у расширения на это нет прав, всё равно не мешаем ему, пускай сам авторизуется не смотря, на то что есть автоматизация авторизации
-        // if (details.url.match(/vk.com\/*/) || details.url.match(/discord.com\/*/) || details.url.startsWith('https://steamcommunity.com/openid/login') || details.url.startsWith('https://steamcommunity.com/login/home')) {
-        //     // noinspection JSUnresolvedFunction
-        //     let granted = await chrome.permissions.contains({origins: [details.url]})
-        //     if (!granted) {
-        //         console.warn(getProjectPrefix(project, true), 'Not granted permissions for ' + details.url)
-        //         return
-        //     }
-        // }
+        let project = (opened.key != null ? await db.get('projects', opened.key) : null) || opened.project
+        if (!project) {
+            console.warn('Project not found for tab', details.tabId)
+            return
+        }
+        if (!project.key && opened.key != null) project.key = opened.key
+        if (!project.ratingMain) {
+            const main = allProjects[project.rating]?.URLMain?.()
+            if (main && main !== project.rating) project.ratingMain = main
+            else if (project.rating === 'minecraft-mp.com' || project.game === 'minecraft-mp.com') project.ratingMain = 'listforge.net'
+        }
+        if (!project.game) project.game = project.rating || 'minecraft-mp.com'
 
         if (opened.countInject >= 10) {
             endVote({tooManyVoteAttempts: true}, {tab: {id: details.tabId}, url: details.url}, opened)
@@ -639,12 +672,13 @@ const webNavigationOnCompletedListener = async function(details) {
                 await chrome.scripting.executeScript({target: {tabId: details.tabId}, world: 'MAIN', func: funcPrompt, args: [project.nick]})
             }
 
-            if (settings.debug) console.log('Injecting scripts/' + project.rating.toLowerCase() +'.js, scripts/main/api.js to ' + details.url)
-            await chrome.scripting.executeScript({target: {tabId: details.tabId}, files: ['scripts/main/hacktimer.js', 'scripts/' + (project.ratingMain || project.rating) +'.js', 'scripts/main/api.js']})
+            const scriptName = project.ratingMain || allProjects[project.rating]?.URLMain?.() || project.rating
+            if (settings.debug) console.log('Injecting scripts/' + scriptName + '.js, scripts/main/api.js to ' + details.url)
+            await chrome.scripting.executeScript({target: {tabId: details.tabId}, files: ['scripts/main/hacktimer.js', 'scripts/' + scriptName + '.js', 'scripts/main/api.js']})
             // noinspection JSUnresolvedVariable,JSUnresolvedFunction
-            if (allProjects[project.rating]?.needWorld?.()) {
-                if (settings.debug) console.log('Injecting scripts/' + project.rating.toLowerCase() +'_world.js to ' + details.url + ' in MAIN world')
-                await chrome.scripting.executeScript({target: {tabId: details.tabId}, world: 'MAIN', files: ['scripts/' + (project.ratingMain || project.rating) +'_world.js']})
+            if (allProjects[project.rating]?.needWorld?.() || allProjects[scriptName]?.needWorld?.()) {
+                if (settings.debug) console.log('Injecting scripts/' + scriptName + '_world.js to ' + details.url + ' in MAIN world')
+                await chrome.scripting.executeScript({target: {tabId: details.tabId}, world: 'MAIN', files: ['scripts/' + scriptName + '_world.js']})
             }
 
             await chrome.tabs.sendMessage(details.tabId, {sendProject: true, project, settings})
@@ -669,7 +703,8 @@ const webNavigationOnCompletedListener = async function(details) {
         || details.url.match(/https?:\/\/(.+?\.)?recaptcha.net\/recaptcha\/enterprise\/bframe*/)
         || details.url.match(/https:\/\/challenges.cloudflare.com\/*/))) {
 
-        const project = await db.get('projects', opened.key)
+        const project = (opened.key != null ? await db.get('projects', opened.key) : null) || opened.project
+        if (!project) return
 
         try {
             if (settings.debug) console.log('Injecting scripts/main/captchaclicker.js to ' + details.url)
@@ -690,6 +725,10 @@ const webNavigationOnCompletedListener = async function(details) {
 }
 
 async function catchTabError(error, project) {
+    if (!project) {
+        console.warn('catchTabError without project:', error?.message)
+        return
+    }
     if (error.message !== 'The frame was removed.' && !error.message.includes('No frame with id') && error.message !== 'The tab was closed.' && !error.message.includes('PrecompiledScript.executeInGlobal')/*Для FireFox мы игнорируем эту ошибку*/ && !error.message.includes('Could not establish connection. Receiving end does not exist') && !error.message.includes('The message port closed before a response was received') && (!error.message.includes('Frame with ID') && !error.message.includes('was removed'))) {
         project = await db.get('projects', project.key)
         let message = error.message
@@ -855,7 +894,7 @@ updateListeners(true)
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
     // noinspection JSIgnoredPromiseFromCall
     onRuntimeMessage(request, sender, sendResponse)
-    if (request.projectDeleted || request.projectRestart) {
+    if (request.projectDeleted || request.projectRestart || request.restartProject) {
         return true
     }
 })
@@ -915,7 +954,7 @@ async function onRuntimeMessage(request, sender, sendResponse) {
 
     await initializeFunc
 
-    if (request === 'checkVote') {
+    if (request === 'checkVote' || request?.checkVote) {
         checkVote()
         return
     } else if (request === 'reloadAllSettings') {
@@ -959,15 +998,16 @@ async function onRuntimeMessage(request, sender, sendResponse) {
         }
         sendResponse('success')
         return
-    } else if (request.projectRestart) {
+    } else if (request.projectRestart || request.restartProject) {
+        const restartTarget = request.projectRestart || request.restartProject
         const transaction = db.transaction(['projects', 'other'], 'readwrite')
         for (const[key,value] of openedProjects) {
-            if (request.projectRestart.key === value.key) {
+            if (restartTarget.key === value.key) {
                 if (request.confirmed) {
                     openedProjects.delete(key)
                     transaction.objectStore('other').put(openedProjects, 'openedProjects')
-                    tryCloseTab(key, request.projectRestart, 0)
-                    console.log(getProjectPrefix(request.projectRestart, true), chrome.i18n.getMessage('canceledVote'))
+                    tryCloseTab(key, restartTarget, 0)
+                    console.log(getProjectPrefix(restartTarget, true), chrome.i18n.getMessage('canceledVote'))
                 } else {
                     sendResponse('confirmNow')
                     return
@@ -975,7 +1015,7 @@ async function onRuntimeMessage(request, sender, sendResponse) {
             }
         }
         for (const[key,value] of openedProjects) {
-            if (request.projectRestart.rating === value.rating || settings.disabledOneVote) {
+            if (restartTarget.rating === value.rating || settings.disabledOneVote) {
                 if (request.confirmed) {
                     openedProjects.delete(key)
                     await transaction.objectStore('other').put(openedProjects, 'openedProjects')
@@ -989,11 +1029,11 @@ async function onRuntimeMessage(request, sender, sendResponse) {
             }
         }
 
-        await chrome.alarms.clear(String(request.projectRestart.key))
-        request.projectRestart.time = null
-        await updateValue('projects', request.projectRestart)
-        console.log(getProjectPrefix(request.projectRestart, true), chrome.i18n.getMessage('projectRestarted'))
-        checkOpen(request.projectRestart)
+        await chrome.alarms.clear(String(restartTarget.key))
+        restartTarget.time = null
+        await updateValue('projects', restartTarget)
+        console.log(getProjectPrefix(restartTarget, true), chrome.i18n.getMessage('projectRestarted'))
+        checkOpen(restartTarget)
         checkVote()
         sendResponse('success')
         return

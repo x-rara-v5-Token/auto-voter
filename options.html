@@ -1,651 +1,150 @@
 <!DOCTYPE html>
 <html lang="id">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-        <title data-resource="appName"></title>
-        <link rel="stylesheet" href="css/reset.css">
-        <link rel="stylesheet" href="css/main.css">
-    </head>
-    <body>
-        <div id="notifBlock"></div>
-        <div id="notifBlock2"></div>
-        <div class="burger">
-            <span></span>
-        </div>
-        <nav>
-            <div class="logo">
-                <img src="images/logo.png" alt="logo">
-                <div class="logo-title">Auto Vote</div>
-                <div class="logo-badge">Rara_IndiDev</div>
-            </div>
-            <div class="navigation">
-                <button class="tablinks" id="addTab" data-tab="append">
-                    <img src="images/icons/addBtn.svg" alt="addBtn">
-                    <div data-resource="addButton"></div>
-                </button>
-                <button class="tablinks" id="addedTab" data-tab="added">
-                    <img src="images/icons/addedBtn.svg" alt="addedBtn">
-                    <div data-resource="addedButton"></div>
-                </button>
-                <button class="tablinks" id="settingsTab" data-tab="settings">
-                    <img src="images/icons/optionsBtn.svg" alt="optionsBtn">
-                    <div data-resource="optionsButton"></div>
-                </button>
-                <button class="tablinks" id="helpTab" data-tab="help">
-                    <img src="images/icons/helpBtn.svg" alt="helpBtn">
-                    <div data-resource="help"></div>
-                </button>
-            </div>
-        </nav>
-        <div class="container">
-            <!-- Добавить -->
-            <div id="append" class="tabcontent" style="display: none;">
-                <h4 data-resource="addTitle"></h4>
-                <div class="editSubtitle" style="display: none;"></div>
-                <div style="border-top: 1px solid #e2e8f0; margin: 16px 0 24px;"></div>
-                <form id="addProject" class="addProject addProjectExpertManual">
-                    <input type="checkbox" name="switchAddMode" id="switchAddMode" class="switchAddMode">
-                    <label for="switchAddMode" data-resource="switchAddMode"></label>
-                    <div id="emptyDiv"></div>
-                    <div>
-                        <!--Cсылка-->
-                        <div class="input-block">
-                            <label data-resource="link" for="link"></label>
-                            <input class="input" name="link" id="link" required placeholder="linkPlaceholder" type="text" spellcheck="false">
-                        </div>
-                        <!--Выбор сайта-->
-                        <div style="display: none;" class="input-block">
-                            <label data-resource="siteTop" for="rating"></label>
-                            <input class="input" name="project" type="text" id="rating" placeholder="selectTop" list="ratingList" spellcheck="false">
-                            <datalist id="ratingList"></datalist>
-                        </div>
-                        <!--Никнейм-->
-                        <div class="input-block" style="display: none">
-                            <label data-resource="yourNick" for="nick"></label>
-                            <input class="input" name="nick" id="nick" placeholder="enterNick" type="text" spellcheck="false">
-                        </div>
-                        <!--ID проекта-->
-                        <div style="display: none;" class="input-block">
-                            <label for="id" data-resource="projectID">
-                                <span class="tooltip1">
-                                    <span class="tooltip1text">
-                                        <span style="color:#d32f2f;">ID</span>
-                                        <span data-resource="projectIDTooltip"></span>
-                                        <br>
-                                        <span id="projectIDTooltip1"></span><span id="projectIDTooltip2" style="color:#d32f2f;"></span><span id="projectIDTooltip3"></span>
-                                    </span>
-                                </span>
-                            </label>
-                            <input class="input" name="id" id="id" placeholder="inputProjectID" type="text" spellcheck="false">
-                        </div>
-                        <!--Дополнительные параметры URL-->
-                        <div style="display: none;" class="input-block">
-                            <label data-resource="additionURL" for="additionURL">
-                                <span class="tooltip1">
-                                    <span class="tooltip1text">
-                                        <span id="additionURLTooltip1"></span><span id="additionURLTooltip2" style="color:#d32f2f;"></span><span id="additionURLTooltip3"></span>
-                                    </span>
-                                </span>
-                            </label>
-                            <input id="additionURL" name="additionURL" placeholder="additionURL" type="text" class="input" spellcheck="false"/>
-                        </div>
-                        <!--Выбор игры-->
-                        <div style="display: none;" class="input-block">
-                            <label data-resource="urlGame" for="chooseGame">
-                                <span class="tooltip1">
-                                    <span class="tooltip1text">
-                                        <span style="color:red;">URL</span>
-                                        <span data-resource="gameIDTooltip"></span>
-                                        <br>
-                                        <span id="urlGameTooltip1"></span><span id="urlGameTooltip2" style="color:#d32f2f;"></span><span id="urlGameTooltip3"></span>
-                                    </span>
-                                </span>
-                            </label>
-                            <input class="input" name="chooseGame" type="text" id="chooseGame" placeholder="chooseGameURL" list="gameList" spellcheck="false">
-                            <datalist id="gameList"></datalist>
-                        </div>
-                        <!--Выбор списка (чего-то) для игры, например у Дискорда может быть список ботов, серверов и т.д.-->
-                        <div style="display: none;" class="input-block">
-                            <label data-resource="urlListing" for="chooseListing">
-                                <span class="tooltip1">
-                                    <span class="tooltip1text">
-                                        <span style="color:red;">URL</span>
-                                        <span data-resource="listingIDTooltip"></span>
-                                        <br>
-                                        <span id="urlListingTooltip1"></span><span id="urlListingTooltip2" style="color:#d32f2f;"></span><span id="urlListingTooltip3"></span>
-                                    </span>
-                                </span>
-                            </label>
-                            <input class="input" name="chooseListing" type="text" id="chooseListing" placeholder="chooseListingURL" list="listingList" spellcheck="false">
-                            <datalist id="listingList"></datalist>
-                        </div>
-                        <!--Выбор языка-->
-                        <div style="display: none;" class="input-block">
-                            <label data-resource="chooseLang" for="chooseLang"></label>
-                            <input class="input" name="chooseLang" type="text" id="chooseLang" placeholder="chooseLang" list="langList" spellcheck="false">
-                            <datalist id="langList"></datalist>
-                        </div>
-                        <!--Максимальное кол-во голосов в день-->
-                        <div style="display: none;" class="input-block">
-                            <label for="countVote" data-resource="countVote"></label>
-                            <input id="countVote" name="countVote" type="number" min="1" max="16" placeholder="countVote" class="input" value="5">
-                        </div>
-                        <!--Выбор порядкового номера мира-->
-                        <div style="display: none;" class="input-block">
-                            <label for="ordinalWorld" data-resource="ordinalWorld">
-                                <span class="tooltip1">
-                                    <span class="tooltip1text">
-                                        <span data-resource="ordinalWorldTooltip"></span>
-                                    </span>
-                                </span>
-                            </label>
-                            <input id="ordinalWorld" name="ordinalWorld" type="number" min="1" max="16" placeholder="ordinalWorld" class="input">
-                        </div>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Auto Vote</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Epilogue:wght@600;700&family=Albert+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Bebas+Neue&display=swap">
+<style>
+:root{--bg:#f4f5f7;--sf:#fff;--ink:#15181e;--mut:#6a7280;--line:#e3e6eb;--soft:#eef0f3;--acc:#0b7a66;--acc-tx:#fff;--warn:#b26a00;--warnbg:#fff3dc;--bad:#c4332b;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#101216;--sf:#181b21;--ink:#eceef2;--mut:#8f97a6;--line:#262a33;--soft:#20242c;--acc:#3dd1b0;--acc-tx:#06231c;--warn:#f0b254;--warnbg:#2c2414;--bad:#ff7a70;color-scheme:dark}}
+html{scroll-padding-top:env(safe-area-inset-top,0px);height:100%}
+*{box-sizing:border-box}
+body{margin:0;min-height:100%;background:var(--bg);color:var(--ink);font:400 15px/1.55 "Albert Sans",system-ui,sans-serif;display:block}
+h1,h2,h3{font-family:"Epilogue",system-ui,sans-serif;margin:0;letter-spacing:-.01em}
+.mono,.cd,dd,.term{font-family:"IBM Plex Mono",ui-monospace,monospace}
+button,input{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+.top{position:fixed;top:0;left:0;right:0;z-index:20;display:flex;justify-content:center;padding:calc(10px + env(safe-area-inset-top,0px)) 16px 0;background:transparent;pointer-events:none}
+.top>*{pointer-events:auto}
+.logo{position:relative;width:52px;height:52px;padding:0;border:0;border-radius:14px;background:none;cursor:pointer;display:block;transition:transform .15s}
+.logo img{width:100%;height:100%;display:block;border-radius:14px}
+.logo:hover{transform:scale(1.06)}.logo[aria-expanded="true"]{transform:scale(.94)}
+#menu{display:none;position:absolute;top:calc(68px + env(safe-area-inset-top,0px));left:50%;transform:translateX(-50%);max-width:calc(100vw - 24px);overflow-x:auto;background:var(--sf);border:1px solid var(--line);border-radius:99px;padding:2px 12px;box-shadow:0 12px 28px rgba(0,0,0,.16);flex-direction:row;gap:4px}
+#menu.open{display:flex;animation:pop .14s ease-out}
+@keyframes pop{from{opacity:0;transform:translateX(-50%) translateY(-6px)}to{opacity:1;transform:translateX(-50%)}}
+#menu button{background:none;border:0;border-bottom:2px solid transparent;border-radius:0;padding:8px 10px 6px;margin:2px 0;cursor:pointer;color:var(--mut);font-family:"Epilogue",system-ui,sans-serif;font-size:14px;font-weight:600;letter-spacing:0;line-height:1.2;white-space:nowrap}
+#menu button:hover{color:var(--ink);border-bottom-color:var(--line)}
+#menu button[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--acc)}
+main{padding:calc(clamp(24px,5vw,56px) + 76px) clamp(20px,5vw,56px) clamp(24px,5vw,56px);max-width:960px;width:100%;margin:0 auto}
+section{display:none}section.on{display:block}
+.head{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap;margin-bottom:28px}
+.head h1{font-family:"Bebas Neue",Impact,sans-serif;font-weight:400;font-size:clamp(36px,5vw,54px);letter-spacing:.03em;line-height:1}
+.head p{margin:6px 0 0;color:var(--mut)}
+.btn{background:var(--acc);color:var(--acc-tx);border:0;border-radius:8px;padding:10px 18px;font-weight:600;cursor:pointer}
+.btn.sec{background:var(--sf);color:var(--ink);border:1px solid var(--line)}
+.btn.sec:hover{background:var(--soft)}
+.tbl{background:var(--sf);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.tr{display:grid;grid-template-columns:minmax(0,2fr) 1fr minmax(0,1.3fr) auto;gap:16px;align-items:center;padding:16px 20px}
+.tr+.tr{border-top:1px solid var(--line)}
+.th{color:var(--mut);font-size:13px;padding:11px 20px;background:var(--soft)}
+.srv b{font-weight:600;font-size:16px;word-break:break-all}
+.sub2{color:var(--mut);font-size:13px;display:block}
+.cd{font-size:18px;font-weight:500;font-variant-numeric:tabular-nums}
+.when{color:var(--mut);font-size:12px;display:block;font-family:"Albert Sans",sans-serif}
+.tag{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;padding:3px 10px;border-radius:99px;background:var(--soft);color:var(--mut);margin-top:6px;width:fit-content}
+.tag.w{background:var(--warnbg);color:var(--warn)}
+.ac{display:flex;gap:4px}
+.ac button{background:none;border:0;padding:6px 10px;border-radius:6px;cursor:pointer;color:var(--mut);font-weight:500}
+.ac button:hover{background:var(--soft);color:var(--ink)}
+.ac button[data-a="rm"]:hover{color:var(--bad)}
+.link{background:none;border:0;color:var(--bad);cursor:pointer;margin-top:18px;padding:0;font-weight:500}
+.empty{padding:48px 20px;text-align:center;color:var(--mut)}
+.form{background:var(--sf);border:1px solid var(--line);border-radius:12px;padding:24px;max-width:620px}
+.form label.l{display:block;font-weight:600;margin-bottom:8px}
+.form input[type=url],.form input[type=text]{width:100%;background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:12px 14px;margin-bottom:16px}
+.form input:focus{outline:2px solid var(--acc);border-color:transparent}
+.manual{display:none}.manual.on{display:block}
+.fr{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:8px}
+.sw{display:flex;align-items:center;gap:12px;cursor:pointer}
+.sw input{position:absolute;opacity:0}
+.sw .t{width:38px;height:22px;border-radius:99px;background:var(--line);position:relative;flex:none;transition:background .15s}
+.sw .t::after{content:"";position:absolute;top:3px;left:3px;width:16px;height:16px;border-radius:50%;background:#fff;transition:transform .15s}
+.sw input:checked+.t{background:var(--acc)}.sw input:checked+.t::after{transform:translateX(16px)}
+.sw input:focus-visible+.t{outline:2px solid var(--acc);outline-offset:2px}
+.grp{margin-bottom:28px}
+.grp h3{font-size:15px;margin-bottom:10px}
+.list{background:var(--sf);border:1px solid var(--line);border-radius:12px}
+.list label{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 20px;cursor:pointer}
+.list label+label{border-top:1px solid var(--line)}
+.term{background:var(--sf);border:1px solid var(--line);border-radius:12px;padding:16px 18px;font-size:12.5px;line-height:1.7;height:320px;overflow:auto;white-space:pre-wrap;color:var(--mut)}
+.lh{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:10px}
+.lh div{display:flex;gap:8px}
+dl.info{background:var(--sf);border:1px solid var(--line);border-radius:12px;margin:0;max-width:620px}
+dl.info div{display:flex;justify-content:space-between;gap:16px;padding:14px 20px}
+dl.info div+div{border-top:1px solid var(--line)}
+dt{color:var(--mut)}dd{margin:0;font-weight:500;text-align:right}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin:20px 0 0;max-width:620px}.chips span{background:var(--sf);border:1px solid var(--line);border-radius:99px;padding:5px 14px;font-size:13px}
+dialog{background:var(--sf);color:var(--ink);border:1px solid var(--line);border-radius:16px;padding:24px;width:min(440px,92vw)}
+dialog::backdrop{background:rgba(10,12,16,.5)}
+dialog dl{margin:14px 0 0}dialog dl div{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid var(--line)}
+.dh{display:flex;justify-content:space-between;align-items:center}
+#toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translateX(-50%) translateY(16px);background:var(--ink);color:var(--bg);padding:10px 18px;border-radius:8px;opacity:0;pointer-events:none;transition:.2s;z-index:9999}
+#toast.on{opacity:1;transform:translateX(-50%)}
+@media(max-width:820px){
+ .th{display:none}.tr{grid-template-columns:1fr auto}.tr .cdw{grid-column:1/-1}
+}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<header class="top">
+  <button class="logo" id="logo" aria-expanded="false" aria-controls="menu" aria-label="Buka menu"><img src="images/logo.png" alt="Auto Vote"></button>
+  <nav id="menu" role="tablist" aria-label="Menu utama">
+    <button role="tab" data-t="daftar">Daftar server</button>
+    <button role="tab" data-t="tambah">Tambah server</button>
+    <button role="tab" data-t="pengaturan">Pengaturan</button>
+    <button role="tab" data-t="tentang">Tentang</button>
+  </nav>
+</header>
+<main>
+<section id="daftar">
+  <div class="head"><div><h1>Server terdaftar</h1><p>Hitung mundur vote berikutnya untuk tiap server.</p></div>
+  <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn" id="runCheckVote">Jalankan Vote Sekarang</button><button class="btn sec" data-stat="all">Statistik keseluruhan</button><button class="btn sec" data-stat="today">Statistik hari ini</button></div></div>
+  <div class="tbl"><div class="tr th"><span>Server</span><span>Akun</span><span>Vote berikutnya</span><span></span></div><div id="rows"></div></div>
+  <button class="link" id="clearAll">Hapus semua server</button>
+</section>
 
-                        <!--Выбор типа таймаута-->
-                        <div style="display: none;" class="input-block">
-                            <label for="selectTime" data-resource="selectTime"></label>
-                            <select required id="selectTime" class="select">
-                                <option value="ms" data-resource="timeoutMS"></option>
-                                <option value="hour" data-resource="timeoutHour"></option>
-                                <option value="week" data-resource="timeoutWeek"></option>
-                                <option value="month" data-resource="timeoutMonth"></option>
-                            </select>
-                        </div>
-                        <!--Задержка в миллисекундах-->
-                        <div style="display: none;" class="input-block">
-                            <label for="time" data-resource="delayFetch"></label>
-                            <input id="time" name="customTime" placeholder="delayFetch" type="number" min="10000" class="input"/>
-                        </div>
-                        <!--Час-->
-                        <div style="display: none;" class="input-block">
-                            <label for="hour" data-resource="chooseHour"></label>
-                            <input id="hour" name="chooseHour" placeholder="chooseHour" type="time" step="0.001" min="0" max="23" class="input"/>
-                        </div>
-                        <!--Неделя-->
-                        <div style="display: none;" class="input-block">
-                            <label for="week" data-resource="chooseWeek"></label>
-                            <select required id="week" class="select">
-                                <option value="1" data-resource="monday"></option>
-                                <option value="2" data-resource="tuesday"></option>
-                                <option value="3" data-resource="wednesday"></option>
-                                <option value="4" data-resource="thursday"></option>
-                                <option value="5" data-resource="friday"></option>
-                                <option value="6" data-resource="saturday"></option>
-                                <option value="0" data-resource="sunday"></option>
-                            </select>
-                        </div>
-                        <!--Число-->
-                        <div style="display: none;" class="input-block">
-                            <label for="month" data-resource="chooseMonth"></label>
-                            <input id="month" name="chooseMonth" placeholder="chooseMonth" type="number" min="1" max="31" class="input"/>
-                        </div>
-                        <!--Запланировать голосование-->
-                        <div style="display: none;" class="input-block">
-                            <label for="scheduleTime" data-resource="scheduleTime"></label>
-                            <input id="scheduleTime" type="datetime-local" class="input" step="0.001">
-                        </div>
-                        <!--Рандомизация голосования-->
-                        <div style="display: none;" class="input-block">
-                            <label for="randomizeMin" data-resource="randomizeInput"></label>
-                            <input id="randomizeMin" type="number" class="input" placeholder="min">
-                            <input id="randomizeMax" type="number" class="input" placeholder="max">
-                        </div>
-                        <!--URL запроса-->
-                        <div style="display: none;" class="input-block">
-                            <label for="responseURL" data-resource="urlFetch"></label>
-                            <input id="responseURL" name="customURL" placeholder="urlFetch" type="text" class="input" spellcheck="false"/>
-                        </div>
-                        <!--Тело запроса-->
-                        <div style="display: none;" class="input-block">
-                            <label for="customBody" data-resource="bodyFetch"></label>
-                            <textarea id="customBody" name="customBody" placeholder="bodyFetch" class="textarea" spellcheck="false"></textarea>
-                        </div>
-                        <!--Выбор режима голосования (тихий или эмуляция)-->
-                        <div style="display: none;" class="input-block">
-                            <label for="voteModeSelect" data-resource="enabledSilentVote">
-                                <span class="tooltip2">
-                                    <span data-resource="enabledSilentVoteTooltip" class="tooltip2text"></span>
-                                </span>
-                            </label>
-                            <select id="voteModeSelect" class="select">
-                                <option data-resource="enabledSilentVoteSilent" value="silentMode"></option>
-                                <option data-resource="enabledSilentVoteNoSilent" value="emulateMode"></option>
-                            </select>
-                        </div>
+<section id="tambah">
+  <div class="head"><div><h1>Tambah server</h1><p>Nama dan jadwal vote terisi otomatis dari tautan.</p></div></div>
+  <div class="form">
+    <label class="l" for="url">Link</label>
+    <input id="url" type="url" placeholder="https://minecraft-mp.com/server/339723/vote/">
+    <div class="manual" id="manual">
+      <label class="l" for="mName">Nama pengguna</label><input id="mName" type="text" placeholder="bbybos">
+      <label class="l" for="mTitle">Nama server (opsional)</label><input id="mTitle" type="text" placeholder="AlwiNation | Server">
+    </div>
+    <div class="fr">
+      <label class="sw"><input type="checkbox" id="mode"><span class="t"></span>Input manual</label>
+      <button class="btn" id="add">Tambah server</button>
+    </div>
+  </div>
+</section>
 
-                        <button class="submitBtn" data-resource="addButton" id="submitAddProject" type="submit"></button>
+<section id="pengaturan">
+  <div class="head"><div><h1>Pengaturan</h1><p>Tersimpan otomatis setiap kali kamu mengubahnya.</p></div></div>
+  <div id="opts"></div>
+  <div class="lh"><h3>Log aktivitas</h3><div><button class="btn sec" id="lRef">Segarkan</button><button class="btn sec" id="lDl">Unduh .txt</button><button class="btn sec" id="lClr">Bersihkan</button></div></div>
+  <div class="term" id="log" tabindex="0" aria-label="Log aktivitas"></div>
+</section>
 
-                        <div class="editProjectButtons" style="display: none;">
-                            <button class="submitBtn" data-resource="save" id="submitEditProject" type="submit"></button>
-                            <button class="submitBtn" data-resource="cancel" id="submitCancelProject" type="button"></button>
-                        </div>
+<section id="tentang">
+  <div class="head"><div><h1>Tentang</h1><p>Auto Vote Rating versi 2.5.</p></div></div>
+  <dl class="info">
+    <div><dt>Pengembang</dt><dd>Rara_IndiDev</dd></div>
+    <div><dt>Bahasa</dt><dd>Bahasa Indonesia</dd></div>
+    <div><dt>Fungsi</dt><dd>Voting server Minecraft harian</dd></div>
+  </dl>
+</section>
+</main>
 
-                        <div data-resource="banAttention" id="banAttention" style="display: none"></div>
-                        <div data-resource="rewardAttention" id="rewardAttention" style="display: none"></div>
-                        <div data-resource="operaAttention" id="operaAttention" style="display: none">
-                            <br>
-                            <br>
-                            <a class="link" target="_blank" href="https://github.com/Serega007RU/Auto-Vote-Rating/wiki/Problems-with-Opera">Problems with Opera</a>
-                        </div>
-                    </div>
-                    <div id="advSettingsAdd" style="display: none">
-                        <div class="label-block">
-                            <label data-resource="advSettings"></label>
-                        </div>
-                        <div class="check-block">
-                            <input class="checkbox" id="customTimeOut" type="checkbox" name="customTimeOut"/>
-                            <label data-resource="customTimeOut" for="customTimeOut"></label>
-                        </div>
-                        <div class="check-block">
-                            <input class="checkbox" id="lastDayMonth" type="checkbox" name="lastDayMonth" disabled/>
-                            <label data-resource="lastDayMonth" for="lastDayMonth"></label>
-                        </div>
-                        <div class="check-block">
-                            <input class="checkbox" id="scheduleTimeCheckbox" type="checkbox" name="scheduleTimeCheckbox"/>
-                            <label data-resource="scheduleTime" for="scheduleTimeCheckbox"></label>
-                        </div>
-                        <div class="check-block">
-                            <input class="checkbox" id="disableCheckProjects" type="checkbox" name="disableCheckProjects"/>
-                            <label data-resource="disableCheckProjects" for="disableCheckProjects"></label>
-                        </div>
-                        <div class="check-block">
-                            <input class="checkbox" id="priority" type="checkbox" name="priority"/>
-                            <label data-resource="priority" for="priority">
-                                <span class="tooltip1">
-                                    <span data-resource="priorityTooltip" class="tooltip1text"></span>
-                                </span>
-                            </label>
-                        </div>
-                        <div class="check-block">
-                            <input class="checkbox" id="randomize" type="checkbox" name="randomize"/>
-                            <label data-resource="randomize" for="randomize">
-                                <span class="tooltip1">
-                                    <span data-resource="randomizeTooltip" class="tooltip1text"></span>
-                                </span>
-                            </label>
-                        </div>
-                        <div class="check-block">
-                            <input class="checkbox" id="voteMode" type="checkbox" name="voteMode" disabled/>
-                            <label data-resource="voteMode" for="voteMode"></label>
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <!-- Настройки -->
-            <div id="settings" class="tabcontent" style="display: none;">
-                <h4 data-resource="optionsExtension"></h4>
-                <div style="border-top: 1px solid #e2e8f0; margin: 16px 0 24px;"></div>
-                <div class="userSettings">
-                    <div>
-                        <div class="label-block">
-                            <label data-resource="settings"></label>
-                        </div>
-                        <div class="check-block">
-                            <input class="checkbox" id="disabledNotifStart" type="checkbox" name="checkbox"/>
-                            <label data-resource="disabledNotifStart" for="disabledNotifStart"></label>
-                        </div>
-                        <div class="check-block">
-                            <input class="checkbox" id="disabledNotifInfo" type="checkbox" name="checkbox"/>
-                            <label data-resource="disabledNotifInfo" for="disabledNotifInfo"></label>
-                        </div>
-                        <div class="check-block">
-                            <input class="checkbox" id="disabledNotifWarn" type="checkbox" name="checkbox"/>
-                            <label data-resource="disabledNotifWarn" for="disabledNotifWarn">
-                                <span class="tooltip1">
-                                    <span data-resource="disabledNotifWarnTooltip" class="tooltip1text"></span>
-                                </span>
-                            </label>
-                        </div>
-                        <div class="check-block">
-                            <input class="checkbox" id="disabledNotifError" type="checkbox" name="checkbox"/>
-                            <label data-resource="disabledNotifError" for="disabledNotifError"></label>
-                        </div>
-                        <div class="check-block">
-                            <input class="checkbox" id="disabledCheckInternet" type="checkbox" name="checkbox"/>
-                            <label data-resource="disabledCheckInternet" for="disabledCheckInternet"></label>
-                        </div>
-                        <div class="check-block" style="display: none">
-                            <input class="checkbox" id="disabledOneVote" type="checkbox" name="checkbox"/>
-                            <label data-resource="disabledOneVote" for="disabledOneVote"></label>
-                        </div>
-                        <div class="check-block">
-                            <input class="checkbox" id="disabledRestartOnTimeout" type="checkbox" name="checkbox"/>
-                            <label data-resource="disabledRestartOnTimeout" for="disabledRestartOnTimeout"></label>
-                        </div>
-                        <div class="check-block">
-                            <input class="checkbox" id="disabledFocusedTab" type="checkbox" name="checkbox"/>
-                            <label data-resource="disabledFocusedTab" for="disabledFocusedTab">
-                                <span class="tooltip1">
-                                    <span data-resource="disabledFocusedTabTooltip" class="tooltip1text"></span>
-                                </span>
-                            </label>
-                        </div>
-                        <div class="check-block">
-                            <input class="checkbox" id="disabledWarnCaptcha" type="checkbox" name="checkbox"/>
-                            <label data-resource="disabledWarnCaptcha" for="disabledWarnCaptcha">
-                                <span class="tooltip1">
-                                    <span data-resource="disabledWarnCaptchaTooltip" class="tooltip1text"></span>
-                                </span>
-                            </label>
-                        </div>
-                        <div class="check-block">
-                            <input class="checkbox" id="disabledClickCaptcha" type="checkbox" name="checkbox"/>
-                            <label data-resource="disabledClickCaptcha" for="disabledClickCaptcha">
-                                <span class="tooltip1">
-                                    <span data-resource="disabledClickCaptchaTooltip" class="tooltip1text"></span>
-                                </span>
-                            </label>
-                        </div>
-                        <div class="check-block" style="display: none">
-                            <input class="checkbox" id="disabledDebug" type="checkbox" name="checkbox"/>
-                            <label data-resource="disabledDebug" for="disabledDebug">
-                                <span class="tooltip1">
-                                    <span data-resource="debugTooltip" class="tooltip1text"></span>
-                                </span>
-                            </label>
-                        </div>
-                        <div class="check-block" style="display: none">
-                            <input class="checkbox" id="disableCloseTabsOnSuccess" type="checkbox" name="checkbox"/>
-                            <label data-resource="disableCloseTabsOnSuccess" for="disableCloseTabsOnSuccess">
-                                <span class="tooltip1">
-                                    <span data-resource="debugTooltip" class="tooltip1text"></span>
-                                </span>
-                            </label>
-                        </div>
-                        <div class="check-block" style="display: none">
-                            <input class="checkbox" id="disableCloseTabsOnError" type="checkbox" name="checkbox"/>
-                            <label data-resource="disableCloseTabsOnError" for="disableCloseTabsOnError">
-                                <span class="tooltip1">
-                                    <span data-resource="debugTooltip" class="tooltip1text"></span>
-                                </span>
-                            </label>
-                        </div>
-                        <div class="check-block">
-                            <input class="checkbox" id="expertMode" type="checkbox" name="checkbox"/>
-                            <label data-resource="expertMode" for="expertMode">
-                                <span class="tooltip1">
-                                    <span data-resource="expertModeTooltip" class="tooltip1text"></span>
-                                </span>
-                            </label>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="input-block" style="display: none">
-                            <label data-resource="cooldown" for="timeoutValue">
-                                <span class="tooltip2">
-                                    <span data-resource="timeoutTooltip" class="tooltip2text"></span>
-                                </span>
-                            </label>
-                            <form id="timeout">
-                                <input class="input" name="cooldown" id="timeoutValue" required type="number" min="0">
-                                <button data-resource="setCooldown" type="submit" class="justBtn"></button>
-                            </form>
-                        </div>
-                        <div class="input-block" style="display: none">
-                            <label data-resource="cooldownError" for="timeoutErrorValue">
-                                <span class="tooltip2">
-                                    <span data-resource="timeoutErrorTooltip" class="tooltip2text"></span>
-                                </span>
-                            </label>
-                            <form id="timeoutError">
-                                <input class="input" name="cooldownError" id="timeoutErrorValue" required type="number" min="0">
-                                <button data-resource="setCooldown" type="submit" class="justBtn"></button>
-                            </form>
-                        </div>
-                        <div class="input-block" style="display: none">
-                            <label data-resource="cooldownVote" for="timeoutVoteValue">
-                                <span class="tooltip2">
-                                    <span data-resource="timeoutVoteTooltip" class="tooltip2text"></span>
-                                </span>
-                            </label>
-                            <form id="timeoutVote">
-                                <input class="input" name="cooldownVote" id="timeoutVoteValue" required type="number" min="1000">
-                                <button data-resource="setCooldown" type="submit" class="justBtn"></button>
-                            </form>
-                        </div>
-                        <div class="logsSection" style="margin-top: 10px;">
-                            <h5 style="color: #0284c7; font-size: 15px; font-weight: 600; margin-bottom: 8px;">
-                                Pusat Log Aktivitas Bot
-                            </h5>
-                            <div id="storageUsed" style="font-size: 12px; color: #64748b; margin-bottom: 12px;"></div>
-                            <div class="logsButtonGroup" style="display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap;">
-                                <button id="logs-view" type="button" style="cursor: pointer; padding: 8px 14px; background: #0284c7; color: #fff; border: none; border-radius: 6px; font-weight: 500; font-size: 13px; display: flex; align-items: center; gap: 6px;">
-                                    <span>Buka / Tutup Log</span>
-                                </button>
-                                <button id="logs-download" type="button" style="cursor: pointer; padding: 8px 14px; background: #ffffff; color: #334155; border: 1px solid #cbd5e1; border-radius: 6px; font-weight: 500; font-size: 13px; display: flex; align-items: center; gap: 6px;">
-                                    <span>Unduh Log (.txt)</span>
-                                </button>
-                                <button id="logs-clear" type="button" style="cursor: pointer; padding: 8px 14px; background: #fef2f2; color: #dc2626; border: 1px solid #fecaca; border-radius: 6px; font-weight: 500; font-size: 13px; display: flex; align-items: center; gap: 6px;">
-                                    <span>Bersihkan Log</span>
-                                </button>
-                            </div>
-                            <!-- Hidden elements for legacy script compatibility -->
-                            <div style="display: none;">
-                                <input id="file-upload" type="file" accept="application/json"/>
-                                <span id="file-download"></span>
-                            </div>
-                            <div id="logs-viewer-container" style="display: none; padding: 12px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px;">
-                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-                                    <strong style="color: #0284c7; font-size: 12px;">Catatan Aktivitas Terbaru (100 Terakhir):</strong>
-                                    <button id="logs-refresh" style="padding: 4px 10px; background: #ffffff; color: #475569; border: 1px solid #cbd5e1; border-radius: 4px; cursor: pointer; font-size: 11px;">Segarkan</button>
-                                </div>
-                                <pre id="logs-viewer-content" style="white-space: pre-wrap; word-break: break-all; max-height: 280px; overflow-y: auto; font-family: monospace; font-size: 11px; color: #0f172a; background: #ffffff; padding: 12px; border-radius: 6px; border: 1px solid #cbd5e1;"></pre>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- Добавленные -->
-            <div id="added" class="tabcontent" style="display: none;">
-                <h4 data-resource="addedProjects"></h4>
-                <div style="border-top: 1px solid #e2e8f0; margin: 16px 0 24px;"></div>
-                <p id="addedLoading" data-resource="load"></p>
-                <p id="notAddedAll" data-resource="notAddedAll" style="display: none;"></p>
-                <div class="projectsBlock">
-                    <div class="buttonBlock"></div>
-                    <div class="contentBlock"></div>
-                </div>
-            </div>
-            <!-- Tentang Ekstensi -->
-            <div id="help" class="tabcontent" style="display: none;">
-                <h4 style="color: #0284c7; font-size: 20px; font-weight: 700; text-align: center; margin-bottom: 16px;">Tentang Ekstensi</h4>
-                <div style="border-top: 1px solid #e2e8f0; margin-bottom: 24px;"></div>
-                <div class="about-card" style="max-width: 650px; margin: 0 auto; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 28px; box-shadow: 0 2px 12px rgba(0,0,0,0.04);">
-                    <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 20px; padding-bottom: 16px; border-bottom: 1px solid #e2e8f0;">
-                        <img src="images/logo.png" style="width: 48px; height: 48px; border-radius: 10px;">
-                        <div>
-                            <div style="font-size: 18px; font-weight: 700; color: #0f172a;">Auto Vote Rating</div>
-                            <div style="font-size: 12px; color: #0284c7; font-weight: 600;">Versi 7.2.5 - Edisi Khusus AlwiNation</div>
-                        </div>
-                    </div>
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 20px;">
-                        <div style="background: #f8fafc; padding: 12px 14px; border-radius: 8px; border: 1px solid #e2e8f0;">
-                            <div style="font-size: 11px; color: #64748b; font-weight: 500; text-transform: uppercase;">Pengembang & Pemeliharaan</div>
-                            <div style="font-size: 14px; font-weight: 700; color: #0f172a; margin-top: 2px;">Rara_IndiDev</div>
-                        </div>
-                        <div style="background: #f8fafc; padding: 12px 14px; border-radius: 8px; border: 1px solid #e2e8f0;">
-                            <div style="font-size: 11px; color: #64748b; font-weight: 500; text-transform: uppercase;">Bahasa Sistem</div>
-                            <div style="font-size: 14px; font-weight: 700; color: #0284c7; margin-top: 2px;">Bahasa Indonesia (Penuh)</div>
-                        </div>
-                    </div>
-                    <div style="margin-bottom: 20px;">
-                        <div style="font-size: 12px; font-weight: 600; color: #334155; margin-bottom: 8px;">Fitur Utama:</div>
-                        <div style="display: flex; flex-wrap: wrap; gap: 8px;">
-                            <span style="font-size: 12px; background: #e0f2fe; color: #0369a1; border: 1px solid #bae6fd; padding: 4px 10px; border-radius: 6px; font-weight: 500;">Cloudflare Turnstile Auto-Solver</span>
-                            <span style="font-size: 12px; background: #dcfce7; color: #15803d; border: 1px solid #bbf7d0; padding: 4px 10px; border-radius: 6px; font-weight: 500;">Anti-Sleep Lid-Close 24/7</span>
-                            <span style="font-size: 12px; background: #fef3c7; color: #b45309; border: 1px solid #fde68a; padding: 4px 10px; border-radius: 6px; font-weight: 500;">Status HUD Real-time</span>
-                            <span style="font-size: 12px; background: #f3e8ff; color: #7e22ce; border: 1px solid #e9d5ff; padding: 4px 10px; border-radius: 6px; font-weight: 500;">Live Execution Log Viewer</span>
-                        </div>
-                    </div>
-                    <div style="font-size: 13px; color: #475569; line-height: 1.6; background: #f8fafc; padding: 12px 16px; border-radius: 8px; border-left: 3px solid #0284c7;">
-                        Dirancang khusus untuk otomatisasi voting server Minecraft harian tanpa henti. Bot berjalan mandiri di latar belakang dan mencatat seluruh aktivitas melalui panel log.
-                    </div>
-                </div>
-            </div>
-            <!-- Statistik Bawah -->
-            <div class="bottomLabel">
-                <a id="generalStats" data-resource="generalStats"></a>
-                <a id="todayStats" data-resource="todayStats"></a>
-            </div>
-            <!-- Memuat -->
-            <div id="load" style="display: block;">
-                <div>Memuat...</div>
-                <img src="images/icons/spinner.svg">
-            </div>
-        </div>
+<dialog id="dlg"><div class="dh"><h2 id="dT" style="font-family:'Bebas Neue',Impact,sans-serif;font-weight:400;font-size:30px;letter-spacing:.03em">Statistik</h2><button class="btn sec" id="dX" aria-label="Tutup">Tutup</button></div><dl id="dBody"></dl></dialog>
+<div id="toast" role="status"></div>
 
-        <!-- Модалки -->
-        <div id="modals">
-            <div class="overlay"></div>
-            <!-- Быстрое добавление -->
-            <div class="modal" id="addFastProject">
-                <div class="head">
-                    <h3 data-resource="fastAdd"></h3>
-                    <div class="close"></div>
-                </div>
-                <div class="content">
-                    <div class="message"></div>
-                    <div class="events"></div>
-                </div>
-            </div>
-            <div class="modal" id="loading">
-                <img src="images/icons/spinner.svg">
-            </div>
-            <!-- Неподдерживаемый браузер -->
-            <div class="modal notSupportedBrowser" id="notSupportedBrowser">
-                <div class="head">
-                    <h3 data-resource="notSupportedBrowser"></h3>
-                </div>
-                <div class="content">
-                    <div class="message">
-                        <div data-resource="notSupportedBrowserContent1"></div>
-                        <br>
-                        <div data-resource="notSupportedBrowserContent2"></div>
-                    </div>
-                    <div class="events">
-                        <button class="btn" data-resource="deleteExtension"></button>
-                        <button class="btn redBtn" data-resource="limitedModeButton1" style="width: 340px"></button>
-                    </div>
-                </div>
-            </div>
-            <!-- Неподдерживаемый браузер 2 -->
-            <div class="modal notSupportedBrowser" id="notSupportedBrowser2">
-                <div class="head">
-                    <h3 data-resource="areYouSure"></h3>
-                    <div class="close"></div>
-                </div>
-                <div class="content">
-                    <div class="message">
-                        <div data-resource="limitedModeContent"></div>
-                        <br>
-                        <div data-resource="limitedModeContent3"></div>
-                        <a class="link" target="_blank" href="https://github.com/Serega007RU/Auto-Vote-Rating/wiki/Problems-with-Opera">Problems with Opera</a>
-                        <br>
-                        <br>
-                        <div data-resource="limitedModeContent1"></div>
-                        <br>
-                        <div data-resource="limitedModeContent2"></div>
-                    </div>
-                    <div class="events">
-                        <button class="btn" data-resource="deleteExtension"></button>
-                        <button class="btn redBtn" data-resource="limitedModeButton2" style="width: 400px" disabled></button>
-                    </div>
-                </div>
-            </div>
-            <!-- Статистика -->
-            <div class="modal" id="stats">
-                <div class="head">
-                    <div class="title">
-                        <h3 data-resource="stats2"></h3>
-                        <div class="statsSubtitle"></div>
-                    </div>
-                    <div class="close"></div>
-                </div>
-                <div class="content">
-                    <div class="message">
-                        <table>
-                            <tbody>
-                                <tr>
-                                    <td data-resource="statsSuccessVotes"></td>
-                                    <th></th>
-                                </tr>
-                                <tr>
-                                    <td data-resource="statsMonthSuccessVotes"></td>
-                                    <th></th>
-                                </tr>
-                                <tr>
-                                    <td data-resource="statsLastMonthSuccessVotes"></td>
-                                    <th></th>
-                                </tr>
-                                <tr>
-                                    <td data-resource="statsLaterVotes"></td>
-                                    <th></th>
-                                </tr>
-                                <tr>
-                                    <td data-resource="statsErrorVotes"></td>
-                                    <th></th>
-                                </tr>
-                                <tr>
-                                    <td data-resource="statsLastSuccessVote"></td>
-                                    <th></th>
-                                </tr>
-                                <tr>
-                                    <td data-resource="statsLastAttemptVote"></td>
-                                    <th></th>
-                                </tr>
-                                <tr>
-                                    <td data-resource="statsAdded"></td>
-                                    <th></th>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-            <!-- Сегодняшняя статистика -->
-            <div class="modal" id="statsToday">
-                <div class="head">
-                    <div class="title">
-                        <h3 data-resource="stats2"></h3>
-                        <div class="statsSubtitle" data-resource="todayStats"></div>
-                    </div>
-                    <div class="close"></div>
-                </div>
-                <div class="content">
-                    <div class="message">
-                        <table>
-                            <tbody>
-                            <tr>
-                                <td data-resource="statsSuccessVotes"></td>
-                                <th></th>
-                            </tr>
-                            <tr>
-                                <td data-resource="statsLaterVotes"></td>
-                                <th></th>
-                            </tr>
-                            <tr>
-                                <td data-resource="statsErrorVotes"></td>
-                                <th></th>
-                            </tr>
-                            <tr>
-                                <td data-resource="statsLastSuccessVote"></td>
-                                <th></th>
-                            </tr>
-                            <tr>
-                                <td data-resource="statsLastAttemptVote"></td>
-                                <th></th>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <script src="libs/idb.umd.js"></script>
-        <script src="projects.js"></script>
-        <script src="main.js"></script>
-        <script src="options.js"></script>
-    </body>
+<script src="libs/idb.umd.js"></script>
+<script src="projects.js"></script>
+<script src="main.js"></script>
+<script src="options.js"></script>
+</body>
 </html>
