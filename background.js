@@ -6,32 +6,32 @@ importScripts('libs/idb.umd.js')
 importScripts('projects.js')
 importScripts('main.js')
 
-// TODO отложенный importScripts пока не работают, подробнее https://bugs.chromium.org/p/chromium/issues/detail?id=1198822
+// TODO delayed importScripts do not work yet, see https://bugs.chromium.org/p/chromium/issues/detail?id=1198822
 self.addEventListener('install', () => {
     importScripts('libs/linkedom.js')
     importScripts('scripts/mcserver-list.eu_silentvote.js', 'scripts/misterlauncher.org_silentvote.js', 'scripts/serverpact.com_silentvote.js', 'scripts/genshindrop.com_silentvote.js')
 })
 
-//Текущие fetch запросы
+// Current fetch requests
 // noinspection ES6ConvertVarToLetConst
 // var fetchProjects = new Map()
-//ID группы вкладок в которой сейчас открыты вкладки расширения
+// Tab group ID currently containing extension tabs
 let groupId
-//Если этот браузер не поддерживает группировку вкладок
+// If browser does not support tab grouping
 let notSupportedGroupTabs = false
 
-//Нужно ли сейчас делать проверку голосования, false может быть только лишь тогда когда предыдущая проверка ещё не завершилась
+// Check whether voting check should run now (false only when previous check has not completed)
 let check = true
 let doubleCheck = false
 
 let silentResponseBody = {}
 
-//Инициализация настроек расширения
+// Initialize extension settings
 // noinspection JSIgnoredPromiseFromCall
 const initializeFunc = initializeConfig(true)
 initializeFunc.finally(() => initializeFunc.done = true)
 
-//Проверка: нужно ли голосовать, сверяет время текущее с временем из конфига
+// Check: check whether to vote, compare current time with config
 async function checkVote() {
 
     await initializeFunc
@@ -41,14 +41,14 @@ async function checkVote() {
         return
     }
 
-    //Если после попытки голосования не было интернета, проверяется есть ли сейчас интернет и если его нет то не допускает последующую проверку но есои наоборот появился интернет, устаналвивает статус online на true и пропускает код дальше
+    // If offline after vote attempt, check connectivity; if back online, resume check
     if (!settings.disabledCheckInternet && !onLine) {
         if (navigator.onLine) {
             console.log(chrome.i18n.getMessage('internetRestored'))
             onLine = true
             db.put('other', onLine, 'onLine')
         } else {
-            // TODO к сожалению в Service Worker отсутствует слушатель на восстановление соединения с интернетом, у нас остаётся только 1 вариант, это попытаться снова запустить checkVote через минуту
+            // Retry checkVote in 1 minute if offline (Service Worker has no online event listener)
             chrome.alarms.create('checkVote', {when: Date.now() + 65000})
             return
         }
@@ -84,7 +84,7 @@ async function checkVote() {
         doubleCheck = false
         checkVote()
     } else {
-        // Голосование завершилось и более не планируется
+        // Voting finished, no further attempts planned
         if (!openedProjects.size) {
             promises = []
             updateListeners(false)
@@ -92,14 +92,14 @@ async function checkVote() {
     }
 }
 
-//Триггер на голосование когда подходит время голосования
+// Trigger vote when scheduled time arrives
 chrome.alarms.onAlarm.addListener(function (alarm) {
     if (settings?.debug) console.log('chrome.alarms.onAlarm', JSON.stringify(alarm))
     // noinspection JSIgnoredPromiseFromCall
     checkVote()
 })
 
-// TODO костыльное решение бага https://bugs.chromium.org/p/chromium/issues/detail?id=471524
+// Workaround for https://bugs.chromium.org/p/chromium/issues/detail?id=471524
 chrome.idle.onStateChanged.addListener(async function(newState) {
     if (newState === 'active') {
         // noinspection JSIgnoredPromiseFromCall
@@ -119,7 +119,7 @@ async function reloadAllAlarms() {
             try {
                 chrome.alarms.create(String(cursor.key), {when})
             } catch (error) {
-                console.warn(getProjectPrefix(project, true), 'Ошибка при создании chrome.alarms', error.message)
+                console.warn(getProjectPrefix(project, true), 'Error creating chrome.alarms', error.message)
             }
             times.push(project.time)
         }
@@ -130,10 +130,10 @@ async function reloadAllAlarms() {
 
 let promises = []
 async function checkOpen(project, transaction) {
-    //Если нет интернета, то не голосуем
+    // If offline, do not vote
     if (!settings.disabledCheckInternet) {
         if (!navigator.onLine && onLine) {
-            // TODO к сожалению в Service Worker отсутствует слушатель на восстановление соединения с интернетом, у нас остаётся только 1 вариант, это попытаться снова запустить checkVote через минуту
+            // Retry checkVote in 1 minute if offline (Service Worker has no online event listener)
             chrome.alarms.create('checkVote', {when: Date.now() + 65000})
 
             sendNotification(getProjectPrefix(project, false), chrome.i18n.getMessage('internetDisconnected'), 'error', 'openProject_' + project.key)
@@ -208,7 +208,7 @@ async function checkOpen(project, transaction) {
         opened.nextAttempt = Date.now() + retryCoolDown
     }
 
-    // Голосование запускается впервые
+    // Voting started for the first time
     if (!openedProjects.size) {
         updateListeners(true)
     }
@@ -216,7 +216,7 @@ async function checkOpen(project, transaction) {
     openedProjects.set('start_' + project.key, opened)
     db.put('other', openedProjects, 'openedProjects')
 
-    if (settings.debug) console.log(getProjectPrefix(project, true), 'пред запуск')
+    if (settings.debug) console.log(getProjectPrefix(project, true), 'pre-start')
 
     if (project.rating === 'monitoringminecraft.ru') {
         promises.push(clearMonitoringMinecraftCookies())
@@ -240,9 +240,9 @@ async function checkOpen(project, transaction) {
 
 let promiseGroup
 let promiseWindow
-//Открывает вкладку для голосования или начинает выполнять fetch запросы
+// Open tab for voting or begin fetch requests
 async function newWindow(project, opened) {
-    //Ожидаем очистку куки
+    // Await cookie cleanup
     let result = await Promise.all(promises)
     while (result.length < promises.length) {
         result = await Promise.all(promises)
@@ -292,7 +292,7 @@ async function newWindow(project, opened) {
             try {
                 await chrome.alarms.create('nextAttempt_' + project.key, {when})
             } catch (error) {
-                console.warn(getProjectPrefix(project, true), 'Ошибка при создании chrome.alarms', error.message)
+                console.warn(getProjectPrefix(project, true), 'Error creating chrome.alarms', error.message)
             }
         }
     }
@@ -356,13 +356,13 @@ async function checkWindow(project) {
 }
 
 async function groupTabs(tab) {
-    // С начало ищем группу вкладок
+    // Find tab group
     if (groupId == null) {
         const groups = await chrome.tabGroups.query({title: 'Auto Vote Rating'})
         if (groups.length) groupId = groups[0].id
     }
 
-    // Потом пробуем сгруппировать если нашли группу
+    // Try to group if tab group exists
     if (groupId != null) {
         try {
             await tryGroupTabs({groupId, tabIds: tab.id}, 0)
@@ -374,7 +374,7 @@ async function groupTabs(tab) {
         }
     }
 
-    // Если мы не нашли групп или не смогли сгруппировать так как нет уже такой группы, то только тогда создаём эту группу
+    // Create tab group if none exists
     try {
         groupId = await tryGroupTabs({tabIds: tab.id}, 0)
         await chrome.tabGroups.update(groupId, {color: 'blue', title: 'Auto Vote Rating'})
@@ -443,7 +443,7 @@ async function checkResponseError(project, response, url, bypassCodes, vk) {
     let host = extractHostname(response.url)
     if (vk && host.includes('vk.com')) {
         if (response.headers.get('Content-Type') && response.headers.get('Content-Type').includes('windows-1251')) {
-            //Почему не UTF-8?
+            // Why not UTF-8?
             response = await new Response(new TextDecoder('windows-1251').decode(await response.arrayBuffer()))
         }
     }
@@ -453,7 +453,7 @@ async function checkResponseError(project, response, url, bypassCodes, vk) {
     silentResponseBody[project.rating].doc = response.doc
     silentResponseBody[project.rating].url = response.url
     if (vk && host.includes('vk.com')) {
-        //Узнаём причину почему мы зависли на авторизации ВК
+        // Check reason if stuck on VK authorization
         let text
         if (response.doc.querySelector('div.oauth_form_access') != null) {
             text = response.doc.querySelector('div.oauth_form_access').textContent.replace(response.doc.querySelector('div.oauth_access_items').textContent, '').trim()
@@ -557,11 +557,11 @@ const webNavigationOnCommittedListener = async function(details) {
     const filesIsolated = []
     const filesMain = []
     if (details.frameId === 0) {
-        // Через эти сайты пользователь может авторизоваться, я пока не поддерживаю автоматическую авторизацию, не мешаем ему в авторизации
+        // User authorization sites: allow manual authorization without interruption
         if (details.url.match(/facebook.com\/*/) || details.url.match(/google.com\/*/) || details.url.match(/accounts.google.com\/*/) || details.url.match(/reddit.com\/*/) || details.url.match(/twitter.com\/*/)) {
             return
         }
-        // Если пользователь авторизовывается через эти сайты, но у расширения на это нет прав, всё равно не мешаем ему, пускай сам авторизуется не смотря, на то что есть автоматизация авторизации
+        // Allow manual user authorization without interruption
         // if (details.url.match(/vk.com\/*/) || details.url.match(/discord.com\/*/) || details.url.startsWith('https://steamcommunity.com/openid/login') || details.url.startsWith('https://steamcommunity.com/login/home')) {
         //     // noinspection JSUnresolvedFunction
         //     let granted = await chrome.permissions.contains({origins: [details.url]})
@@ -620,7 +620,7 @@ const webNavigationOnCommittedListener = async function(details) {
     }
 }
 
-//Слушатель на обновление вкладок, если вкладка полностью загрузилась, загружает туда скрипт который сам нажимает кнопку проголосовать
+// Tab update listener: inject vote scripts when loaded
 const webNavigationOnCompletedListener = async function(details) {
     await initializeFunc
     let opened = openedProjects.get(details.tabId)
@@ -635,7 +635,7 @@ const webNavigationOnCompletedListener = async function(details) {
     if (!opened) return
 
     if (details.frameId === 0) {
-        // Через эти сайты пользователь может авторизоваться, я пока не поддерживаю автоматическую авторизацию, не мешаем ему в авторизации
+        // User authorization sites: allow manual authorization without interruption
         if (details.url.match(/facebook.com\/*/) || details.url.match(/google.com\/*/) || details.url.match(/accounts.google.com\/*/) || details.url.match(/reddit.com\/*/) || details.url.match(/twitter.com\/*/)) {
             return
         }
@@ -710,12 +710,12 @@ const webNavigationOnCompletedListener = async function(details) {
             if (settings.debug) console.log('Injecting scripts/main/captchaclicker.js to ' + details.url)
             await chrome.scripting.executeScript({target: {tabId: details.tabId, frameIds: [details.frameId]}, files: ['scripts/main/hacktimer.js', 'scripts/main/captchaclicker.js']})
 
-            // Если вкладка уже загружена, повторно туда высылаем sendProject который обозначает что мы готовы к голосованию
+            // If tab already loaded, resend sendProject to notify ready to vote
             const tab = await chrome.tabs.get(details.tabId)
-            // TODO костыльная совместимость с Kiwi Browser, данный браузер в tab.status отдаёт undefined, нам ничего не остаётся кроме как игнорировать данный факт и голосовать как есть
-            // не работоспособность данной проверки может привести к тому что капча может быть решена раньше чем страница загружена но такое обстоятельство весьма редкое
-            // расширение отошлёт сообщение о пройденной капче ещё не внедрённому скрипту голосования что приведёт к зависанию голосования
-            // например сайт ionmc.top загружает капчу раньше чем страница загрузилась
+            // Kiwi Browser compatibility: tab.status may return undefined
+            // Ensure captcha is not handled before page load completes
+            // Prevent sending captcha response before script is injected
+            // e.g. ionmc.top loads captcha before page finishes loading
             if (tab.status != null && tab.status !== 'complete') return
             await chrome.tabs.sendMessage(details.tabId, {sendProject: true, project, settings})
         } catch (error) {
@@ -729,7 +729,7 @@ async function catchTabError(error, project) {
         console.warn('catchTabError without project:', error?.message)
         return
     }
-    if (error.message !== 'The frame was removed.' && !error.message.includes('No frame with id') && error.message !== 'The tab was closed.' && !error.message.includes('PrecompiledScript.executeInGlobal')/*Для FireFox мы игнорируем эту ошибку*/ && !error.message.includes('Could not establish connection. Receiving end does not exist') && !error.message.includes('The message port closed before a response was received') && (!error.message.includes('Frame with ID') && !error.message.includes('was removed'))) {
+    if (error.message !== 'The frame was removed.' && !error.message.includes('No frame with id') && error.message !== 'The tab was closed.' && !error.message.includes('PrecompiledScript.executeInGlobal')/* For Firefox we ignore this error */ && !error.message.includes('Could not establish connection. Receiving end does not exist') && !error.message.includes('The message port closed before a response was received') && (!error.message.includes('Frame with ID') && !error.message.includes('was removed'))) {
         project = await db.get('projects', project.key)
         let message = error.message
         if (message.includes('This page cannot be scripted due to an ExtensionsSettings policy')) {
@@ -754,11 +754,11 @@ const webRequestOnCompletedListener = async function(details) {
     let opened = openedProjects.get(details.tabId)
     if (!opened) return
 
-    // Иногда некоторые проекты намеренно выдаёт ошибку в status code, нам ничего не остаётся кроме как игнорировать все ошибки, подробнее https://discord.com/channels/371699266747629568/760393040174120990/1053016256535593022
+    // Some sites return error status code intentionally, ignore non-fatal errors
     if (allProjects[opened.rating].ignoreErrors?.()) return
 
     if (details.type === 'main_frame' && (details.statusCode < 200 || details.statusCode > 299)) {
-        if (details.statusCode === 503 || details.statusCode === 403) { // Если проверка CloudFlare
+        if (details.statusCode === 503 || details.statusCode === 403) { // If Cloudflare verification
             opened.countInject--
             db.put('other', openedProjects, 'openedProjects')
         } else {
@@ -810,35 +810,35 @@ const webNavigationOnErrorOccurredListener = async function (details) {
     }
 }
 
-// Регистрация и разрегистрация слушателей сделана в целях оптимизации работы фонового процесса расширения
-// Фоновый процесс расширения слишком часто пробуждается лишний раз при веб сёрфинге (при использовании браузера пользователем)
-// поэтому если голосование в данный момент не происходит - мы отключаем все эти слушатели и спим
-// в случае если голосование запускается вновь - мы обратно регистрируем слушателей на время авто-голосования
+// Register/unregister listeners for Service Worker optimization
+// Prevent Service Worker waking up excessively during regular browsing
+// Sleep when voting is idle
+// Re-register listeners when voting starts
 function updateListeners(enable) {
-    if (settings?.debug) console.log('Регистрация слушателей, включение', enable, 'openedProjects.size', openedProjects.size, 'openedProjects', openedProjects)
+    if (settings?.debug) console.log('Listener registration, enable:', enable, 'openedProjects.size', openedProjects.size, 'openedProjects', openedProjects)
     if (enable) {
         if (!chrome.webNavigation.onErrorOccurred.hasListeners()) {
-            if (settings?.debug) console.log('Регистрация слушателя webNavigation.onErrorOccurred')
+            if (settings?.debug) console.log('Registering listener webNavigation.onErrorOccurred')
             chrome.webNavigation.onErrorOccurred.addListener(webNavigationOnErrorOccurredListener)
         }
         if (!chrome.webNavigation.onCommitted.hasListeners()) {
-            if (settings?.debug) console.log('Регистрация слушателя webNavigation.onCommitted')
+            if (settings?.debug) console.log('Registering listener webNavigation.onCommitted')
             chrome.webNavigation.onCommitted.addListener(webNavigationOnCommittedListener)
         }
         if (!chrome.webNavigation.onCompleted.hasListeners()) {
-            if (settings?.debug) console.log('Регистрация слушателя webNavigation.onCompleted')
+            if (settings?.debug) console.log('Registering listener webNavigation.onCompleted')
             chrome.webNavigation.onCompleted.addListener(webNavigationOnCompletedListener)
         }
         if (!chrome.tabs.onRemoved.hasListeners()) {
-            if (settings?.debug) console.log('Регистрация слушателя tabs.onRemoved')
+            if (settings?.debug) console.log('Registering listener tabs.onRemoved')
             chrome.tabs.onRemoved.addListener(tabsOnRemovedListener)
         }
         if (!chrome.webRequest.onCompleted.hasListeners()) {
-            if (settings?.debug) console.log('Регистрация слушателя webRequest.onCompleted')
+            if (settings?.debug) console.log('Registering listener webRequest.onCompleted')
             chrome.webRequest.onCompleted.addListener(webRequestOnCompletedListener, {urls: ['<all_urls>']})
         }
         if (!chrome.webRequest.onErrorOccurred.hasListeners()) {
-            if (settings?.debug) console.log('Регистрация слушателя webRequest.onErrorOccurred')
+            if (settings?.debug) console.log('Registering listener webRequest.onErrorOccurred')
             chrome.webRequest.onErrorOccurred.addListener(webRequestOnErrorOccurredListener, {urls: ['<all_urls>']})
         }
     } else {
@@ -856,8 +856,8 @@ function updateListeners(enable) {
     }
 }
 
-// Так как Service Worker может уснуть прямо во время голосования, мы прям при запуске всё равно регистрируем слушателей
-// после инициализации базы данных если обнаруживается что сейчас мы не голосуем и нет необходимости голосовать - мы разрегистрируем слушатели
+// Register listeners on start to handle Service Worker lifecycle
+// Unregister listeners if no votes are currently scheduled
 updateListeners(true)
 
 // async function _fetch(url, options, project) {
@@ -870,7 +870,7 @@ updateListeners(true)
 //     }
 //
 //     listener = (details)=>{
-//         //Да это костыль, а есть другой адекватный вариант достать requestId или хотя бы код ошибки net::ERR из fetch запроса?
+// Extract requestId or net::ERR from fetch request
 //         // noinspection JSUnresolvedVariable
 //         if ((details.initiator && details.initiator.includes(self.location.hostname) || (details.originUrl && details.originUrl.includes(self.location.hostname))) && details.url.includes(url)) {
 //             fetchProjects.set(details.requestId, project)
@@ -890,7 +890,7 @@ updateListeners(true)
 //     }
 // }
 
-//Слушатель сообщений и ошибок
+// Listener for messages and errors
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
     // noinspection JSIgnoredPromiseFromCall
     onRuntimeMessage(request, sender, sendResponse)
@@ -976,7 +976,7 @@ async function onRuntimeMessage(request, sender, sendResponse) {
     } else if (request.projectDeleted) {
         const transaction = db.transaction(['projects', 'other'], 'readwrite')
         let nowVoting = false
-        //Если эта вкладка была уже открыта, он закрывает её
+        // If tab was already opened, close it
         for (const[key,value] of openedProjects) {
             if (request.projectDeleted.key === value.key) {
                 if (key === 'start_' + request.projectDeleted.key) {
@@ -1050,7 +1050,7 @@ async function onRuntimeMessage(request, sender, sendResponse) {
     }
 
     let opened = openedProjects.get(sender.tab.id)
-    if (request.captcha || request.authSteam || request.discordLogIn || request.auth || request.requiredConfirmTOS || (request.errorCaptcha && !request.restartVote) || request.restartVote === false || request.captchaPassed === 'double') {//Если требует ручное прохождение капчи
+    if (request.captcha || request.authSteam || request.discordLogIn || request.auth || request.requiredConfirmTOS || (request.errorCaptcha && !request.restartVote) || request.restartVote === false || request.captchaPassed === 'double') {// If manual captcha completion is required
         const project = await db.get('projects', opened.key)
         let message
         if (request.captcha) {
@@ -1128,7 +1128,7 @@ async function tryGroupTabs(options, attempt) {
     }
 }
 
-//Завершает голосование, если есть ошибка то обрабатывает её
+// Complete voting and handle errors
 async function endVote(request, sender, project) {
     let timeout = settings.timeout
 
@@ -1166,7 +1166,7 @@ async function endVote(request, sender, project) {
         if (sender?.url || request.url) {
             const url = sender?.url || request.url
             const domain = getDomainWithoutSubdomain(url)
-            // Если мы попали не по адресу, ну значит не надо отсылать отчёт об ошибке
+            // Skip error report if destination URL is irrelevant
             if (domain !== project.rating) {
                 request.incorrectDomain = domain
             }
@@ -1187,10 +1187,10 @@ async function endVote(request, sender, project) {
     //     }
     // }
 
-    // Повторно достаём project так как за время отправки отчёта или использования удалённого кода он мог измениться
+    // Reload project in case it was updated during execution
     project = await db.get('projects', project.key)
 
-    //Если усё успешно
+    // If vote succeeded
     let sendMessage
     if (request.successfully || request.later != null) {
         let time = new Date()
@@ -1252,7 +1252,7 @@ async function endVote(request, sender, project) {
             if (Number.isInteger(request.successfully)) {
                 time = new Date(request.successfully)
             } else if (!timeoutRating) {
-                //Если нам не известен таймаут, ставим по умолчанию +24 часа
+                // Default timeout fallback +24 hours
                 time.setUTCDate(time.getUTCDate() + 1)
             } else if (timeoutRating.week != null) {
                 let date = time.getUTCDate()
@@ -1280,12 +1280,12 @@ async function endVote(request, sender, project) {
                 }
                 time = new Date(Date.UTC(time.getUTCFullYear(), month, date, timeoutRating.hour, (project.priority ? 0 : 10), 0, 0))
             } else if (timeoutRating.hour != null) {
-                //Рейтинги с таймаутом сбрасывающемся раз в день в определённый час
+                // Ratings with fixed daily reset hour
                 let date = time.getUTCHours() >= timeoutRating.hour ? time.getUTCDate() + 1 : time.getUTCDate()
                 time = new Date(Date.UTC(time.getUTCFullYear(), time.getUTCMonth(), date, timeoutRating.hour, (project.priority ? 0 : 10), 0, 0))
             } else if (timeoutRating.hours != null) {
                 let needSetTime = true
-                //Рейтинги с таймаутом сбрасывающемся через определённый промежуток времени с момента последнего голосования
+                // Ratings with relative interval cooldown from last vote
                 if (allProjects[project.rating]?.limitedCountVote?.()) {
                     project.countVote = project.countVote + 1
                     if (project.countVote >= project.maxCountVote) {
@@ -1320,7 +1320,7 @@ async function endVote(request, sender, project) {
             }
             project.time = project.time + Math.floor(Math.random() * (project.randomize.max - project.randomize.min) + project.randomize.min)
         } else if ((project.rating === 'topcraft.ru' || project.rating === 'topcraft.club' || project.rating === 'mctop.su' || (project.rating === 'minecraftrating.ru' && project.listing === 'projects')) && !project.priority && project.timeoutHour == null) {
-            //Рандомизация по умолчанию (в пределах 5-10 минут) для бедного TopCraft/McTOP который легко ддосится от массового автоматического голосования
+            // Random jitter (5-10 minutes) to avoid request spikes
             project.time = project.time + Math.floor(Math.random() * (600000 - 300000) + 300000)
         }
 
@@ -1362,7 +1362,7 @@ async function endVote(request, sender, project) {
             todayStats.laterVotes++
         }
         console.log(getProjectPrefix(project, true), sendMessage + ', ' + chrome.i18n.getMessage('timeStamp') + ' ' + project.time)
-        //Если ошибка
+        // If vote failed with error
     } else {
         let message
         if (!request.message) {
@@ -1430,7 +1430,7 @@ async function endVote(request, sender, project) {
             try {
                 await chrome.alarms.create(String(project.key), {when})
             } catch (error) {
-                console.warn(getProjectPrefix(project, true), 'Ошибка при создании chrome.alarms', error.message)
+                console.warn(getProjectPrefix(project, true), 'Error creating chrome.alarms', error.message)
             }
         }
     }
@@ -1449,17 +1449,17 @@ async function endVote(request, sender, project) {
         removeQueue()
     }, timeout)
 
-    // TODO мы не можем быть уверены что setTimeout в Service Worker 100% отработает, поэтому мы на всякий случай создаём chrome.alarm
+    // Create chrome.alarm as backup for Service Worker setTimeout
     let alarmTimeout = timeout
     if (alarmTimeout < 65000) alarmTimeout = 65000
     try {
         await chrome.alarms.create('checkVote', {when: Date.now() + alarmTimeout})
     } catch (error) {
-        console.warn(getProjectPrefix(project, true), 'Ошибка при создании chrome.alarms', error.message)
+        console.warn(getProjectPrefix(project, true), 'Error creating chrome.alarms', error.message)
     }
 }
 
-//Отправитель уведомлений
+// Notification sender
 function sendNotification(title, message, type, notificationId) {
     if (!message) message = ''
     if (!notificationId) notificationId = ''
@@ -1500,7 +1500,7 @@ chrome.notifications.onClicked.addListener(async function (notificationId) {
             await chrome.windows.update(tab.windowId, {focused: true})
         } catch (error) {
             if (!error.message.includes('No tab with id')) {
-                console.warn('Ошибка при фокусировке на вкладку', error.message)
+                console.warn('Error focusing tab', error.message)
             }
         }
     } else if (notificationId.startsWith('openProject_')) {
@@ -1511,7 +1511,7 @@ chrome.notifications.onClicked.addListener(async function (notificationId) {
             await openOptionsPage()
             await chrome.runtime.sendMessage({openProject: projectKey})
         } catch (error) {
-            console.warn('Ошибка открытия настроек с определённым проектом', error.message)
+            console.warn('Error opening settings for project', error.message)
         }
     } else if (notificationId.startsWith('openSettings')) {
         await chrome.runtime.openOptionsPage()
@@ -1520,7 +1520,7 @@ chrome.notifications.onClicked.addListener(async function (notificationId) {
 
 async function openOptionsPage() {
     await chrome.runtime.openOptionsPage()
-    // Дикий костыль на ожидание загрузки вкладки, мы не можем адекватно передать в настройки нужные данные, поэтому придётся так костылять
+    // Wait for tab load before passing configuration
     const tab = await chrome.tabs.query({active: true, lastFocusedWindow: true})
     if (!tab.length) return
     if (tab[0].status !== 'complete') {

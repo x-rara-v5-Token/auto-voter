@@ -14,7 +14,7 @@ body * {
 	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 
-/* Навигация */
+/* Navigation */
 nav {
 	z-index: 10;
 	transition: .25s left ease;
@@ -196,7 +196,7 @@ nav div.navigation > button.active img {
     }
 }
 
-/* Модалки */
+/* Modals */
 #modals .overlay {
     z-index: 30;
     opacity: 0;
@@ -618,7 +618,7 @@ nav div.navigation > button.active img {
     }
 }
 
-/* Разное */
+/* Miscellaneous */
 .statsSubtitle {
 	font-size: 14px;
 }
@@ -1187,7 +1187,7 @@ button:disabled {
     opacity: 1
 }
 
-/* Нотификации */
+/* Notifications */
 #notifBlock {
 	flex-direction: column;
     display: flex;
@@ -1356,7 +1356,7 @@ button:disabled {
     }
 }
 
-/* Скроллер */
+/* Scroller */
 ::-webkit-scrollbar-button {
 	/*background-image: url('');*/
 	background-repeat: no-repeat;

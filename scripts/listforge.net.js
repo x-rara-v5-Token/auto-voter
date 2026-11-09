@@ -39,7 +39,7 @@ function fillForm(nick) {
 }
 
 async function vote(first) {
-    //Пилюля от жадности
+    // Bypass banner adblock & notice overlay
     if (document.getElementById('adblock-notice')) document.getElementById('adblock-notice').style.display = 'none'
     if (document.getElementById('adsense-notice')) document.getElementById('adsense-notice').style.display = 'none'
     if (document.getElementById('vote-loading-block')) document.getElementById('vote-loading-block').style.display = 'none'
@@ -114,7 +114,7 @@ async function vote(first) {
         chrome.runtime.sendMessage(request)
     }
 
-    // Иногда если сервер/проект был удалён то сайт просто переадресует на главную страницу или на список серверов никак не сообщая о об ошибке 404 или о том что сервер удалён
+    // Jika server/project dihapus dan redirect ke halaman utama
     if (document.querySelector('ul.pagination')) {
         const request = {}
         request.errorVoteNoElement = 'It looks like the site redirected to the main page (list of servers), most likely this server/project was deleted. If this is not the case and you think it is a error, inform the extension developer'
@@ -123,7 +123,7 @@ async function vote(first) {
         return
     }
 
-    //Вводим ник сразу, чтобы поле ввода было заполнено правильным ником
+    // Input nickname segera agar form terisi
     const project = await getProject()
     updateHUD(`Mempersiapkan vote untuk akun: ${project?.nick || 'Unknown'}`, 'info')
     if (document.getElementById('nickname') != null) {
@@ -135,13 +135,13 @@ async function vote(first) {
         fillForm(project.nick)
     }
 
-    //Если требуется авторизация Steam
+    // Jika membutuhkan otorisasi Steam
     if (document.querySelector('form[name="steam_form"] > input[type="image"]') != null) {
         document.querySelector('form[name="steam_form"] > input[type="image"]').click()
         return
     }
 
-    //Если нас каким-то образом выкинул на страницу описания сервера
+    // Jika terlempar ke halaman deskripsi server
     if (document.querySelector('a[role="button"][title="Vote"]')) {
         document.querySelector('a[role="button"][title="Vote"]').click()
         return
@@ -151,7 +151,7 @@ async function vote(first) {
         return
     }
 
-    // Ждём решения Cloudflare Turnstile
+    // Tunggu solusi Cloudflare Turnstile
     function isTurnstileDone() {
         const resp = document.querySelector('[name="cf-turnstile-response"]')
         if (resp && resp.value && resp.value.length > 5) return true
@@ -200,7 +200,7 @@ async function vote(first) {
         }
     }
 
-    // Ждём решения Google reCAPTCHA
+    // Tunggu solusi Google reCAPTCHA
     if (document.querySelector('#vote_form div.g-recaptcha')) {
         if (!document.querySelector('#g-recaptcha-response') || !document.querySelector('#g-recaptcha-response').value) {
             updateHUD('Menunggu Google reCAPTCHA...', 'warning')
@@ -216,7 +216,7 @@ async function vote(first) {
         }
     }
 
-    // Ждём решения hCaptcha
+    // Tunggu solusi hCaptcha
     if (document.querySelector('div.h-captcha')) {
         const hCaptchaResponse = document.querySelector('[name="h-captcha-response"]')
         if (!hCaptchaResponse || !hCaptchaResponse.value || hCaptchaResponse.value.length === 0) {
@@ -233,11 +233,11 @@ async function vote(first) {
         }
     }
 
-    // Повторно гарантируем ник и чекбокс перед отправкой
+    // Validasi ulang nickname dan agreement sebelum submit
     fillForm(project.nick)
     await new Promise(r => setTimeout(r, 600))
 
-    // Кликаем проголосовать
+    // Klik tombol Vote
     updateHUD('Menekan tombol Vote...', 'info')
     const voteBtn = document.getElementById('voteBtn') ||
                     document.querySelector('button[form="vote_form"]') ||

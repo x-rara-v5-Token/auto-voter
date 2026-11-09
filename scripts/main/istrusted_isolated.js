@@ -1,5 +1,5 @@
 if (document.readyState !== 'loading') {
-    // chrome.runtime.sendMessage({message: 'Ошибка уровня injectScript, скрипт isTrusted был внедрён слишком поздно, document.readyState: ' + document.readyState + ', работа авто-голосования прекращена во избежании обнаружения владельцем сайта что мы авто-голосуем', ignoreReport: true})
+    // chrome.runtime.sendMessage({message: 'injectScript error: isTrusted script was injected too late, document.readyState: ' + document.readyState, ignoreReport: true})
 } else {
     window.portIsTrusted = document.createElement('div')
     window.portIsTrusted.id = 'avr-it-port'

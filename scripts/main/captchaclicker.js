@@ -8,7 +8,7 @@ chrome.runtime.onMessage.addListener(function(request/*, sender, sendResponse*/)
                 window.dontSolve = true
             }
             run()
-        // на случай если капча была решена раньше чем страница загрузилась
+        // In case captcha was solved before the page finished loading
         } else if (window.solvedCaptcha) {
             chrome.runtime.sendMessage({captchaPassed: 'double'})
         }
@@ -33,16 +33,16 @@ function run() {
             if (document.querySelector('#recaptcha-anchor > div.recaptcha-checkbox-border') != null
                 && isScrolledIntoView(document.querySelector('#recaptcha-anchor > div.recaptcha-checkbox-border'))
                 && document.querySelector('#recaptcha-anchor > div.recaptcha-checkbox-border').style.display !== 'none') {
-                //Если в капче есть какая-либо ошибка, то капчу не стоит проходить
+                // If there is an error in the captcha, do not proceed
                 if (document.querySelector('.rc-anchor-error-msg-container').style.display !== 'none' && document.querySelector('.rc-anchor-error-msg-container').textContent.length > 0) return
                 document.querySelector('#recaptcha-anchor > div.recaptcha-checkbox-border').click()
                 clearInterval(timer1)
             }
         }, 1000)
 
-        //Проверяет прошла ли проверка ReCaptcha
+        // Check if ReCaptcha challenge has passed
         const timer2 = setInterval(()=>{
-            //Если капча пройдена
+            // If captcha passed
             if (document.getElementsByClassName('recaptcha-checkbox-checked').length >= 1 || (document.getElementById('g-recaptcha-response') != null && document.getElementById('g-recaptcha-response').value.length > 0)) {
                 clearInterval(timer2)
                 window.solvedCaptcha = true
@@ -55,7 +55,7 @@ function run() {
                     document.location.reload()
                 } else {
                     // https://i.imgur.com/WJ3ce9s.png
-                    if (!text.includes('Время проверки истекло') && !text.includes('Verification challenge expired') && !text.includes('Verification expired') && !text.includes('La validation a expiré') && !text.includes('Platnost výzvy ověření vypršela') && !text.includes('verificación caducó')) {
+                    if (!text.includes('Verification challenge expired') && !text.includes('Verification expired') && !text.includes('La validation a expiré') && !text.includes('Platnost výzvy ověření vypršela') && !text.includes('verificación caducó')) {
                         chrome.runtime.sendMessage({errorCaptcha: document.querySelector('.rc-anchor-error-msg-container').textContent})
                         clearInterval(timer2)
                     }
@@ -63,7 +63,7 @@ function run() {
             }
         }, 1000)
     } else if ((window.location.href.match(/https?:\/\/(.+?\.)?google.com\/recaptcha\/api\d\/bframe/) || window.location.href.match(/https?:\/\/(.+?\.)?recaptcha.net\/recaptcha\/api\d\/bframe/) || window.location.href.match(/https?:\/\/(.+?\.)?google.com\/recaptcha\/enterprise\/bframe*/) || window.location.href.match(/https?:\/\/(.+?\.)?recaptcha.net\/recaptcha\/enterprise\/bframe*/)) && document.querySelector('head > yandex-captcha-solver') == null) {
-        //Интеграция с расширением Buster: Captcha Solver for Humans
+        // Integration with Buster: Captcha Solver for Humans
         let count = 0
         let repeat = 2
         const timer7 = setInterval(() => {
@@ -87,7 +87,7 @@ function run() {
                 clearInterval(timer7)
             }
 
-            // TODO костыльное временное решение нажатие на кнопку "Verify" для расширения NopeCHA методом решения капчи "Speech", подробнее https://github.com/NopeCHALLC/nopecha-extension/issues/11
+            // Click Verify button for NopeCHA extension using Speech solver
             if (document.querySelector("#audio-response")?.value.length > 3) {
                 clearInterval(timer7)
                 document.querySelector("#recaptcha-verify-button")?.click()
@@ -95,7 +95,7 @@ function run() {
         }, 2000)
 
         const timer3 = setInterval(() => {
-            //Если требуется ручное прохождение капчи
+            // If manual captcha completion is required
             if (document.getElementById("solver-button") == null && document.getElementById("rc-imageselect") != null && isScrolledIntoView(document.getElementById("rc-imageselect"))) {
                 chrome.runtime.sendMessage({captcha: true})
                 clearInterval(timer3)
@@ -119,7 +119,7 @@ function run() {
             }
         }, 1000)
 
-        //Проверяет прошла ли проверка hCaptcha
+        // Check if hCaptcha challenge has passed
         const timer5 = setInterval(()=>{
             if (document.getElementById('checkbox') != null && document.getElementById('checkbox').getAttribute('aria-checked') === 'true') {
                 clearInterval(timer5)
@@ -128,7 +128,7 @@ function run() {
             }
         }, 1000)
 
-        //Если требуется ручное прохождение капчи
+        // If manual captcha completion is required
         const timer6 = setInterval(()=>{
             if (document.querySelector('body[class="no-selection"]') != null && document.querySelector('body[class="no-selection"]').getAttribute('aria-hidden') == null && document.querySelector('body[class="no-selection"]').style.display === '' && document.querySelector('head > yandex-captcha-solver') == null) {
                 clearInterval(timer6)
@@ -139,7 +139,7 @@ function run() {
             }
         }, 1000)
 
-        // Если ошибка в капче https://i.imgur.com/EqEJoMr.png
+        // If error in captcha https://i.imgur.com/EqEJoMr.png
         const timer9 = setInterval(() => {
             const status = document.querySelector('#status')
             if (status && status.style.display !== 'none' && status.innerText.length > 3) {
@@ -174,7 +174,7 @@ function run() {
             return null
         }
 
-        // Автоматически нажимаем на чекбокс Cloudflare Turnstile
+        // Auto click Cloudflare Turnstile checkbox
         const timer7 = setInterval(() => {
             const btn = findTurnstileElement('input[type="checkbox"]') ||
                         findTurnstileElement('#cf-norobot-container span.mark') ||
@@ -187,7 +187,7 @@ function run() {
             }
         }, 1000)
 
-        // Проверяем, пройдена ли проверка CloudFlare
+        // Check if Cloudflare Turnstile challenge has passed
         const timer8 = setInterval(() => {
             const success = findTurnstileElement('#success') ||
                             findTurnstileElement('[data-state="success"]') ||
@@ -214,6 +214,6 @@ function isScrolledIntoView(el) {
     return isVisible
 }
 
-// TODO возвращаем хоть какой-то результат в background при executeScript во избежании ошибки "Could not establish connection. Receiving end does not exist"
+// Return result to background script on executeScript to avoid "Could not establish connection"
 // noinspection BadExpressionStatementJS
 true

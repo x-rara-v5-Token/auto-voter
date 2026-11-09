@@ -19,7 +19,7 @@
 <a href="http://minecraftservers.biz/">minecraftservers.biz</a>  
 <a href="https://hotmc.ru/">hotmc.ru</a>  
 <a href="https://minecraft-server.net/">minecraft-server.net</a>  
-<a href="https://top-games.net/">top-games.net или top-serveurs.net</a>  
+<a href="https://top-games.net/">top-games.net or top-serveurs.net</a>  
 <a href="https://tmonitoring.com/">tmonitoring.com</a>  
 <a href="https://top.gg/">top.gg</a>  
 <a href="https://discordbotlist.com/">discordbotlist.com</a>  

@@ -34,14 +34,13 @@
 		"cookies"
 	],
 	"host_permissions": [
+		"<all_urls>",
 		"https://*.hcaptcha.com/captcha/*",
 		"https://*.google.com/recaptcha/*",
 		"https://*.recaptcha.net/recaptcha/*",
 		"https://challenges.cloudflare.com/*"
 	],
-	"optional_host_permissions": [
-		"<all_urls>"
-	],
+	"optional_host_permissions": [],
 	"web_accessible_resources": [
 		{
 			"resources": [

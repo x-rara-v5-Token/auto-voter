@@ -1,19 +1,19 @@
-//Настройки
+// Settings
 // noinspection ES6ConvertVarToLetConst
 var settings
-//Общая статистика
+// General statistics
 // noinspection ES6ConvertVarToLetConst
 var generalStats
-//Статистика за сегодня
+// Today statistics
 // noinspection ES6ConvertVarToLetConst
 var todayStats
-//Оновная база данных
+// Main database
 // noinspection ES6ConvertVarToLetConst
 var db
-//База данных логов
+// Logs database
 // noinspection ES6ConvertVarToLetConst
 var dbLogs
-//Текущие открытые вкладки расширением
+// Currently opened extension tabs
 // noinspection ES6ConvertVarToLetConst
 var openedProjects = new Map()
 let onLine
@@ -54,7 +54,7 @@ function onUnhandledError(event) {
     }
 }
 
-//Инициализация настроек расширения
+// Initialize extension settings
 async function initializeConfig(background, version) {
     if (!dbLogs) {
         dbLogs = await idb.openDB('logs', 1, {
@@ -67,13 +67,13 @@ async function initializeConfig(background, version) {
     try {
         db = await idb.openDB('avr', version ? version : 15, {upgrade})
     } catch (error) {
-        //На случай если это версия MultiVote
+        // In case this is MultiVote version
         if (error.name === 'VersionError') {
             if (version) {
                 dbError({target: {source: {name: 'avr'}, error: error}})
                 return
             }
-            console.log('Ошибка версии базы данных, возможно вы на версии MultiVote, пытаемся загрузить настройки версии MultiVote')
+            console.log('Database version error, attempting to load MultiVote version settings')
             await initializeConfig(background, 150)
             return
         }
@@ -462,7 +462,7 @@ async function upgrade(db, oldVersion, newVersion, transaction) {
             }
 
             if (((project.rating === 'topcraft.club' || project.rating === 'topcraft.ru') && project.id === '7666') || (project.id === 'arago' && (project.rating === 'minecraftrating.ru' || project.rating === 'tmonitoring.com'))) {
-                project.error = chrome.i18n.getMessage('disabledSite', 'Проект закрыт')
+                project.error = chrome.i18n.getMessage('disabledSite', 'Project closed')
                 project.time = Infinity
             }
 
@@ -492,7 +492,7 @@ async function upgrade(db, oldVersion, newVersion, transaction) {
         let cursor = await transaction.objectStore('projects').index('rating').openCursor('topcraft.club')
         while (cursor) {
             const project = cursor.value
-            project.error = chrome.i18n.getMessage('disabledSite','Высокий риск быть заблокированным за авто-голосование, голосуйте на данном сайте вручную')
+            project.error = chrome.i18n.getMessage('disabledSite','High risk of being blocked for auto-voting, vote on this site manually')
             project.time = Infinity
             await cursor.update(project)
             // noinspection JSVoidFunctionReturnValueUsed
@@ -503,7 +503,7 @@ async function upgrade(db, oldVersion, newVersion, transaction) {
         let cursor2 = await transaction.objectStore('projects').index('rating').openCursor('mctop.su')
         while (cursor2) {
             const project = cursor2.value
-            project.error = chrome.i18n.getMessage('disabledSite','Высокий риск быть заблокированным за авто-голосование, голосуйте на данном сайте вручную')
+            project.error = chrome.i18n.getMessage('disabledSite','High risk of being blocked for auto-voting, vote on this site manually')
             project.time = Infinity
             await cursor2.update(project)
             // noinspection JSVoidFunctionReturnValueUsed
@@ -513,7 +513,7 @@ async function upgrade(db, oldVersion, newVersion, transaction) {
         let cursor3 = await transaction.objectStore('projects').index('rating').openCursor('monitoringminecraft.ru')
         while (cursor3) {
             const project = cursor3.value
-            project.error = chrome.i18n.getMessage('disabledSite','Сайт не работает')
+            project.error = chrome.i18n.getMessage('disabledSite','Site is not working')
             project.time = Infinity
             await cursor3.update(project)
             // noinspection JSVoidFunctionReturnValueUsed
