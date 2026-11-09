@@ -3,21 +3,21 @@
 	"short_name": "AVR",
 	"author": "Rara_IndiDev",
 	"background": {
-		"service_worker": "background.js"
+		"service_worker": "src/background/worker.js"
 	},
 	"description": "__MSG_appDesc__",
 	"manifest_version": 3,
 	"name": "__MSG_appName__",
 	"options_ui": {
 		"open_in_tab": true,
-		"page": "options.html"
+		"page": "src/ui/options.html"
 	},
 	"icons": {
-		"16": "images/icon16.png",
-		"32": "images/icon32.png",
-		"48": "images/icon48.png",
-		"64": "images/icon64.png",
-		"128": "images/icon128.png"
+		"16": "src/assets/icons/icon16.png",
+		"32": "src/assets/icons/icon32.png",
+		"48": "src/assets/icons/icon48.png",
+		"64": "src/assets/icons/icon64.png",
+		"128": "src/assets/icons/icon128.png"
 	},
 	"permissions": [
 		"notifications",
@@ -44,7 +44,7 @@
 	"web_accessible_resources": [
 		{
 			"resources": [
-				"options.html"
+				"src/ui/options.html"
 			],
 			"matches": [
 				"https://*.dogecraft.net/*",

@@ -2,14 +2,14 @@
 
 const state = self.serviceWorker.state
 
-importScripts('libs/idb.umd.js')
-importScripts('projects.js')
-importScripts('main.js')
+importScripts('/src/assets/vendor/idb.umd.js')
+importScripts('/src/core/projects.js')
+importScripts('/src/core/db.js')
 
 // TODO delayed importScripts do not work yet, see https://bugs.chromium.org/p/chromium/issues/detail?id=1198822
 self.addEventListener('install', () => {
-    importScripts('libs/linkedom.js')
-    importScripts('scripts/mcserver-list.eu_silentvote.js', 'scripts/misterlauncher.org_silentvote.js', 'scripts/serverpact.com_silentvote.js', 'scripts/genshindrop.com_silentvote.js')
+    importScripts('/src/assets/vendor/linkedom.js')
+    importScripts('/src/engines/mcserver-list.eu_silentvote.js', '/src/engines/misterlauncher.org_silentvote.js', '/src/engines/serverpact.com_silentvote.js', '/src/engines/genshindrop.com_silentvote.js')
 })
 
 // Current fetch requests
@@ -387,7 +387,7 @@ async function groupTabs(tab) {
 
 async function silentVote(project) {
     if (!self.DOMParser) {
-        importScripts('libs/linkedom.js')
+        importScripts('/src/assets/vendor/linkedom.js')
     }
     try {
         if (project.rating === 'Custom') {
@@ -402,7 +402,7 @@ async function silentVote(project) {
         }
 
         if (!self['silentVote' + project.rating]) {
-            importScripts('scripts/' + (project.ratingMain || project.rating) + '_silentvote.js')
+            importScripts('/src/engines/' + (project.ratingMain || project.rating) + '_silentvote.js')
         }
 
         await self['silentVote_' + (project.ratingMain || project.rating)](project)
@@ -570,14 +570,14 @@ const webNavigationOnCommittedListener = async function(details) {
         //     }
         // }
 
-        filesMain.push('scripts/main/visible.js')
+        filesMain.push('src/content/visibility.js')
         if (allProjects[getDomainWithoutSubdomain(details.url)]?.needIsTrusted?.()) {
-            filesIsolated.push('scripts/main/istrusted_isolated.js')
-            filesMain.push('scripts/main/istrusted_main.js')
+            filesIsolated.push('src/content/trusted_isolated.js')
+            filesMain.push('src/content/trusted_main.js')
         }
         if (!allProjects[getDomainWithoutSubdomain(details.url)]?.dontUseAlert?.()) {
-            filesIsolated.push('scripts/main/alert_isolated.js')
-            filesMain.push('scripts/main/alert_main.js')
+            filesIsolated.push('src/content/dialog_isolated.js')
+            filesMain.push('src/content/dialog_main.js')
         }
     } else if (details.url.match(/hcaptcha.com\/captcha\/*/)
             || details.url.match(/https?:\/\/(.+?\.)?google.com\/recaptcha\/api.\/anchor*/)
@@ -590,9 +590,9 @@ const webNavigationOnCommittedListener = async function(details) {
             || details.url.match(/https?:\/\/(.+?\.)?google.com\/recaptcha\/enterprise\/anchor*/)
             || details.url.match(/https?:\/\/(.+?\.)?recaptcha.net\/recaptcha\/enterprise\/bframe*/)
             || details.url.match(/https:\/\/challenges.cloudflare.com\/*/)) {
-        filesMain.push('scripts/main/visible.js')
-        filesIsolated.push('scripts/main/alert_isolated.js')
-        filesMain.push('scripts/main/alert_main.js')
+        filesMain.push('src/content/visibility.js')
+        filesIsolated.push('src/content/dialog_isolated.js')
+        filesMain.push('src/content/dialog_main.js')
     }
 
     if (!filesIsolated.length && !filesMain.length) return
@@ -673,12 +673,12 @@ const webNavigationOnCompletedListener = async function(details) {
             }
 
             const scriptName = project.ratingMain || allProjects[project.rating]?.URLMain?.() || project.rating
-            if (settings.debug) console.log('Injecting scripts/' + scriptName + '.js, scripts/main/api.js to ' + details.url)
-            await chrome.scripting.executeScript({target: {tabId: details.tabId}, files: ['scripts/main/hacktimer.js', 'scripts/' + scriptName + '.js', 'scripts/main/api.js']})
+            if (settings.debug) console.log('Injecting engines/' + scriptName + '.js, content/runner.js to ' + details.url)
+            await chrome.scripting.executeScript({target: {tabId: details.tabId}, files: ['src/content/timer.js', 'src/engines/' + scriptName + '.js', 'src/content/runner.js']})
             // noinspection JSUnresolvedVariable,JSUnresolvedFunction
             if (allProjects[project.rating]?.needWorld?.() || allProjects[scriptName]?.needWorld?.()) {
-                if (settings.debug) console.log('Injecting scripts/' + scriptName + '_world.js to ' + details.url + ' in MAIN world')
-                await chrome.scripting.executeScript({target: {tabId: details.tabId}, world: 'MAIN', files: ['scripts/' + scriptName + '_world.js']})
+                if (settings.debug) console.log('Injecting engines/' + scriptName + '_world.js to ' + details.url + ' in MAIN world')
+                await chrome.scripting.executeScript({target: {tabId: details.tabId}, world: 'MAIN', files: ['src/engines/' + scriptName + '_world.js']})
             }
 
             await chrome.tabs.sendMessage(details.tabId, {sendProject: true, project, settings})
@@ -707,8 +707,8 @@ const webNavigationOnCompletedListener = async function(details) {
         if (!project) return
 
         try {
-            if (settings.debug) console.log('Injecting scripts/main/captchaclicker.js to ' + details.url)
-            await chrome.scripting.executeScript({target: {tabId: details.tabId, frameIds: [details.frameId]}, files: ['scripts/main/hacktimer.js', 'scripts/main/captchaclicker.js']})
+            if (settings.debug) console.log('Injecting content/captcha.js to ' + details.url)
+            await chrome.scripting.executeScript({target: {tabId: details.tabId, frameIds: [details.frameId]}, files: ['src/content/timer.js', 'src/content/captcha.js']})
 
             // If tab already loaded, resend sendProject to notify ready to vote
             const tab = await chrome.tabs.get(details.tabId)
@@ -1484,7 +1484,7 @@ function sendNotification(title, message, type, notificationId) {
 
     let notification = {
         type: 'basic',
-        iconUrl: 'images/icon128.png',
+        iconUrl: 'src/assets/icons/icon128.png',
         title: title,
         message: message
     }

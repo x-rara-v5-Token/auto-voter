@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Auto Vote</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Epilogue:wght@600;700&family=Albert+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Bebas+Neue&display=swap">
+<link rel="stylesheet" href="options.css">
+</head>
+<body>
+<header class="top">
+  <button class="logo" id="logo" aria-expanded="false" aria-controls="menu" aria-label="Buka menu"><img src="/src/assets/images/logo.png" alt="Auto Vote"></button>
+  <nav id="menu" role="tablist" aria-label="Menu utama">
+    <button role="tab" data-t="daftar">Daftar server</button>
+    <button role="tab" data-t="tambah">Tambah server</button>
+    <button role="tab" data-t="pengaturan">Pengaturan</button>
+    <button role="tab" data-t="tentang">Tentang</button>
+  </nav>
+</header>
+<main>
+<section id="daftar">
+  <div class="head"><div><h1>Server terdaftar</h1><p>Hitung mundur vote berikutnya untuk tiap server.</p></div>
+  <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn" id="runCheckVote">Jalankan Vote Sekarang</button><button class="btn sec" data-stat="all">Statistik keseluruhan</button><button class="btn sec" data-stat="today">Statistik hari ini</button></div></div>
+  <div class="tbl"><div class="tr th"><span>Server</span><span>Akun</span><span>Vote berikutnya</span><span></span></div><div id="rows"></div></div>
+  <button class="link" id="clearAll">Hapus semua server</button>
+</section>
+
+<section id="tambah">
+  <div class="head"><div><h1>Tambah server</h1><p>Nama dan jadwal vote terisi otomatis dari tautan.</p></div></div>
+  <div class="form">
+    <label class="l" for="url">Link</label>
+    <input id="url" type="url" placeholder="https://minecraft-mp.com/server/339723/vote/">
+    <div class="manual" id="manual">
+      <label class="l" for="mName">Nama pengguna</label><input id="mName" type="text" placeholder="bbybos">
+      <label class="l" for="mTitle">Nama server (opsional)</label><input id="mTitle" type="text" placeholder="AlwiNation | Server">
+    </div>
+    <div class="fr">
+      <label class="sw"><input type="checkbox" id="mode"><span class="t"></span>Input manual</label>
+      <button class="btn" id="add">Tambah server</button>
+    </div>
+  </div>
+</section>
+
+<section id="pengaturan">
+  <div class="head"><div><h1>Pengaturan</h1><p>Tersimpan otomatis setiap kali kamu mengubahnya.</p></div></div>
+  <div id="opts"></div>
+  <div class="lh"><h3>Log aktivitas</h3><div><button class="btn sec" id="lRef">Segarkan</button><button class="btn sec" id="lDl">Unduh .txt</button><button class="btn sec" id="lClr">Bersihkan</button></div></div>
+  <div class="term" id="log" tabindex="0" aria-label="Log aktivitas"></div>
+</section>
+
+<section id="tentang">
+  <div class="head"><div><h1>Tentang</h1><p>Auto Vote Rating versi 2.5.</p></div></div>
+  <dl class="info">
+    <div><dt>Pengembang</dt><dd>Rara_IndiDev</dd></div>
+    <div><dt>Bahasa</dt><dd>Bahasa Indonesia</dd></div>
+    <div><dt>Fungsi</dt><dd>Voting server Minecraft harian</dd></div>
+  </dl>
+</section>
+</main>
+
+<dialog id="dlg"><div class="dh"><h2 id="dT" style="font-family:'Bebas Neue',Impact,sans-serif;font-weight:400;font-size:30px;letter-spacing:.03em">Statistik</h2><button class="btn sec" id="dX" aria-label="Tutup">Tutup</button></div><dl id="dBody"></dl></dialog>
+<div id="toast" role="status"></div>
+
+<script src="/src/assets/vendor/idb.umd.js"></script>
+<script src="/src/core/projects.js"></script>
+<script src="/src/core/db.js"></script>
+<script src="options.js"></script>
+</body>
+</html>
